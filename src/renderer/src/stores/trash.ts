@@ -5,10 +5,19 @@ import password from '@renderer/api/password'
 export const useTrashStore = defineStore('trash', () => {
   const trashList = ref<TrashPassword[]>([])
 
-  const fetchTrashedPassword = async (): Promise<void> => {
+  const currentPage = ref(1)
+  const pageSize = ref(10)
+  const total = ref(0)
+
+  const fetchTrashedPassword = async (params = {}): Promise<void> => {
     try {
-      const response = await password.getTrashPasswords()
+      const response = await password.getTrashPasswords({
+        currentPage: currentPage.value,
+        pageSize: pageSize.value,
+        ...params
+      })
       trashList.value = response.data.passwords
+      total.value = response.data.pagination.total
     } catch (error) {
       console.error('Error fetching trashed passwords:', error)
     }
@@ -61,6 +70,9 @@ export const useTrashStore = defineStore('trash', () => {
 
   return {
     trashList,
+    currentPage,
+    pageSize,
+    total,
     fetchTrashedPassword,
     restorePassword,
     restorePasswords,

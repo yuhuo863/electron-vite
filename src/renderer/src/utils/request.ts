@@ -1,5 +1,6 @@
 import { useAuthStore } from '@renderer/stores/auth'
 import axios, { AxiosRequestConfig } from 'axios'
+import { ElMessage } from 'element-plus'
 // import { handleRequestError } from './errorHandler'
 
 const servers = axios.create({
@@ -152,10 +153,12 @@ servers.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
         return servers(originalRequest)
       } catch (refreshError) {
-        // 如果刷新token失败，处理队列中的请求
+        // 如果刷新token失败，确保所有排队等待新 AT 的请求都收到刷新失败的错误，避免它们继续挂起
         processQueue(refreshError, null)
 
-        // await authStore.logout() // 清除用户信息，跳转到登录页面
+        await authStore.logout()
+
+        ElMessage.error('会话已过期，请重新登录')
 
         return Promise.reject(refreshError)
       }

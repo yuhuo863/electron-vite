@@ -188,7 +188,7 @@ import Pagination from '@renderer/components/Pagination.vue'
 import { useCategoryStore } from '@renderer/stores/category'
 import { usePwdStore } from '@renderer/stores/password'
 import { useDebounceFn } from '@vueuse/core'
-import { ElMessage, ElMessageBox, FormInstance, FormRules } from 'element-plus'
+import { ElMessage, FormInstance, FormRules } from 'element-plus'
 import { ref, onMounted, useTemplateRef, reactive } from 'vue'
 
 const pwdStore = usePwdStore()

@@ -27,7 +27,7 @@
               :max="5"
               size="small"
               disabled
-              :colors="['red', 'yellow', 'green']"
+              :colors="['red', '#ff9900', 'green']"
               show-text
               text-color="#ff9900"
               :texts="['极弱', '弱', '一般', '强', '极强']"

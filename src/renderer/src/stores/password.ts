@@ -16,9 +16,9 @@ export const usePwdStore = defineStore('password', () => {
   const getPasswordList = async (params = {}): Promise<void> => {
     try {
       const response = await password.getPasswordList({
-        ...params,
         currentPage: currentPage.value,
-        pageSize: pageSize.value
+        pageSize: pageSize.value,
+        ...params
       })
       setPasswordList(
         response.data.passwords.map((item: PasswordItem) => ({

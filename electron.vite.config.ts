@@ -100,7 +100,7 @@ export default defineConfig(({ command, mode }) => {
             '@renderer': resolve('src/renderer/src')
           }
         },
-        plugins: [vue()]
+        plugins: [Vue()]
       }
     }
   }

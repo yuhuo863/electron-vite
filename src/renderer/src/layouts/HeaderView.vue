@@ -29,7 +29,7 @@
         </el-tooltip>
         <div>
           <el-dropdown trigger="click" class="cursor-pointer" @command="handleCommand">
-            <el-avatar :src="userInfo?.avatar" size="small" @error="errorHandler" />
+            <el-avatar :src="authStore.userInfo?.avatar" size="small" @error="errorHandler" />
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile" icon="User">个人资料</el-dropdown-item>
@@ -52,14 +52,36 @@
 import Operation from '@renderer/components/Operation.vue'
 import { useAuthStore } from '@renderer/stores/auth'
 import { ElMessage } from 'element-plus'
+import { nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const errorHandler = (): boolean => true
+// 解决 OSS 延迟同步导致图片地址首次访问的 404 问题
+const errorHandler = (event: Event): void => {
+  const imgElement = event.target as HTMLImageElement
+  const currentCount = parseInt(imgElement.dataset.retryCount ?? '0', 10)
+  // 防止无限重试
+  if (currentCount >= 3) {
+    // 重试次数过多，显示默认头像或错误占位图
+    imgElement.src = 'https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png'
+    return
+  }
+  // 增加重试计数
+  const newRetryCount = currentCount + 1
+  imgElement.dataset.retryCount = newRetryCount.toString()
+
+  setTimeout(() => {
+    // 重置 src 以强制浏览器重新发起 GET 请求
+    const originalSrc = imgElement.src
+    imgElement.src = '' // 清空 src
+    nextTick(() => {
+      imgElement.src = originalSrc // 恢复 src，触发重试
+    })
+  }, 500 * newRetryCount) // 增加延迟时间，避免立即重试
+}
 
 const authStore = useAuthStore()
-const userInfo = authStore.userInfo
 
 const handleCommand = async (command: string): Promise<void> => {
   switch (command) {

@@ -12,7 +12,7 @@
       <el-button>选择头像</el-button>
     </el-upload>
 
-    <el-dialog v-model="cropDialogVisible" width="70%" top="2vh" destroy-on-close draggable>
+    <el-dialog v-model="cropDialogVisible" width="70%" top="5vh" destroy-on-close draggable>
       <template #header>
         <span class="text-xl font-semibold">裁剪头像</span>
       </template>
@@ -111,7 +111,7 @@ const option = ref({
 })
 
 const restartUpload = (): void => {
-  document.querySelector('.el-upload .el-button')?.click()
+  ;(document.querySelector('.el-upload .el-button') as HTMLElement).click()
 }
 
 const previews = ref({})
@@ -168,7 +168,6 @@ const handleFileChange = (file): void => {
 }
 
 const handleHttpRequest = (options): void => {
-  // 模拟上传成功
   options.onSuccess('上传成功')
 }
 

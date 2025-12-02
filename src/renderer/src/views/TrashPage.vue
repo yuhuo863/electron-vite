@@ -58,9 +58,9 @@
 
     <div class="flex justify-center">
       <Pagination
-        :total="20"
-        :current-page="currentPage"
-        :page-size="pageSize"
+        :total="trashStore.total"
+        :current-page="trashStore.currentPage"
+        :page-size="trashStore.pageSize"
         @current-change="handleCurrentChange"
       />
     </div>
@@ -83,7 +83,7 @@ const handleSelectionChange = (items): void => {
   selectedPasswordIds.value = items.map((item) => item.id)
 }
 const handleSelectAll = (items): void => {
-  ElMessage.warning('请谨慎操作执行后续全选操作')
+  ElMessage.warning('请谨慎执行后续全选操作')
 }
 
 const handleRestorePassword = async (id: string): Promise<void> => {
@@ -155,14 +155,10 @@ const handleForceDeletePasswords = (passwordIds: string[]): void => {
     })
 }
 
-// 分页相关状态
-const currentPage = ref(1)
-const pageSize = ref(10)
 // 当前页码改变
-const handleCurrentChange = (val: number): void => {
-  currentPage.value = val
-  // 滚动到顶部（可选）
-  // window.scrollTo({ top: 0, behavior: 'smooth' })
+const handleCurrentChange = async (val: number): void => {
+  trashStore.currentPage = val
+  await trashStore.fetchTrashedPassword()
 }
 </script>
 

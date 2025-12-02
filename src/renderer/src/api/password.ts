@@ -14,7 +14,7 @@ export default {
   /**删除密码 */
   deletePassword: (id: string) => server.delete(`/passwords/${id}`),
   /**获取回收站中的密码 */
-  getTrashPasswords: () => server.get('/passwords/trash'),
+  getTrashPasswords: (params = {}) => server.get('/passwords/trash', { params }),
   /**恢复密码 */
   restorePassword: (id: string) => server.post(`/passwords/${id}/restore`),
   /**批量恢复 */

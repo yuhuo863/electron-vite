@@ -50,7 +50,8 @@ export const createPermissionGuard = (router: Router): void => {
           // 添加 redirect 参数，登录后自动跳回原本想访问的页面
           next({
             path: '/login',
-            query: { redirect: to.fullPath }
+            query: { redirect: to.fullPath },
+            replace: true
           })
         } else {
           // 访问白名单页面（如 404、关于我们等不需要登录的页面）

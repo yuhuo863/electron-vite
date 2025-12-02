@@ -1,7 +1,13 @@
 <template>
   <div class="flex flex-col space-y-4">
     <el-card shadow="never" class="flex">
-      <el-form ref="userFormRef" :model="userForm" :rules="rules" label-width="auto">
+      <el-form
+        ref="userFormRef"
+        :model="userForm"
+        :rules="rules"
+        label-width="auto"
+        :show-message="false"
+      >
         <el-form-item label="头像" prop="avatar">
           <div class="cursor-default">
             <el-avatar :src="userForm.avatar" fit="cover" :size="96" @error="handleAvatarError">
@@ -25,7 +31,9 @@
         </el-form-item>
       </el-form>
       <div class="flex justify-end">
-        <el-button type="primary" @click="submitForm(userFormRef)">更新</el-button>
+        <el-button type="primary" :loading="loading" @click="submitForm(userFormRef)"
+          >更新</el-button
+        >
       </div>
     </el-card>
   </div>
@@ -34,12 +42,24 @@
 <script setup lang="ts">
 import { ref, useTemplateRef } from 'vue'
 import CropperItem from '@renderer/views/components/CropperItem.vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { useAuthStore } from '@renderer/stores/auth'
+import usersApi from '@renderer/api/user'
 
+const authStore = useAuthStore()
+const { userInfo } = authStore
+
+const loading = ref(false)
 const avatarFeedbackURL = 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
 const handleAvatarError = (): boolean => true
-const blobData = ref({})
+const blobData = ref<Blob | null>(null)
 const currentImageType = ref('')
+const userForm = ref<UserForm>({
+  username: '',
+  email: '',
+  avatar: ''
+})
+Object.assign(userForm.value, { ...userInfo })
 
 const getCropImgBlobData = ({ base64, blob, imgType }): void => {
   // 将base64赋值给头像字段，用于预览
@@ -48,12 +68,6 @@ const getCropImgBlobData = ({ base64, blob, imgType }): void => {
   blobData.value = blob
   // 保存裁剪后的图片类型，用于上传时确定文件类型
   currentImageType.value = imgType
-}
-
-interface UserForm {
-  username: string
-  email: string
-  avatar: string
 }
 
 const userFormRef = useTemplateRef<FormInstance | undefined | null>('userFormRef')
@@ -68,25 +82,35 @@ const rules = ref<FormRules<UserForm>>({
   ],
   avatar: [{ required: true, message: '请上传头像', trigger: 'blur' }]
 })
-const userForm = ref<UserForm>({
-  username: '',
-  email: '',
-  avatar: ''
-})
 
 const submitForm = async (formEl: FormInstance | undefined | null): Promise<void> => {
   if (!formEl) return
+  loading.value = true
+
   try {
-    await formEl.validate((valid, fields) => {
-      if (!valid) {
-        console.error('表单验证失败', fields)
-      } else {
-        // 提交表单逻辑
-        console.log('submit!')
-      }
-    })
+    await formEl.validate()
+
+    const finalUpdateData = { ...userForm.value }
+    if (blobData.value) {
+      const formData = new FormData()
+      formData.append(
+        'file',
+        blobData.value as Blob,
+        `avatar-${Date.now()}.${currentImageType.value}`
+      )
+      const response = await usersApi.uploadAvatar(formData)
+      const newAvatarUrl = response.data.file.url
+
+      finalUpdateData.avatar = newAvatarUrl
+    }
+
+    const res = await usersApi.updateProfile(finalUpdateData)
+    authStore.updateUserInfo({ ...res.data.updatedUser })
+    ElMessage.success(res.message)
   } catch (error) {
     console.error(error)
+  } finally {
+    loading.value = false
   }
 }
 </script>

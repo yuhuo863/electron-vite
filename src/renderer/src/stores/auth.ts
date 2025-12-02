@@ -5,8 +5,6 @@ import servers from '@renderer/utils/request'
 import { ElMessage } from 'element-plus'
 import users from '@renderer/api/user'
 import { AxiosError } from 'axios'
-// import { jwtDecode } from 'jwt-decode'
-// import type { JwtPayload } from '../types/jwt'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -25,6 +23,9 @@ export const useAuthStore = defineStore(
     }
     const setUserInfo = (_user): void => {
       userInfo.value = _user
+    }
+    const updateUserInfo = (data): void => {
+      userInfo.value = { ...userInfo.value, ...data }
     }
 
     const initAuth = async (): Promise<void> => {
@@ -135,6 +136,7 @@ export const useAuthStore = defineStore(
     return {
       accessToken,
       userInfo,
+      updateUserInfo,
       isRefreshing,
       isAuthenticated,
       setToken,
