@@ -65,15 +65,18 @@ export const useAuthStore = defineStore(
       }
     }
 
+    const clearLoginStatus = async (): Promise<void> => {
+      await window.authAPI.removeTokens()
+      accessToken.value = null
+      userInfo.value = null
+      isRefreshing.value = false
+    }
+
     const logout = async (): Promise<void> => {
       try {
-        await window.authAPI.removeTokens()
-
         const response = await auth.logoutApi()
 
-        accessToken.value = null
-        userInfo.value = null
-        isRefreshing.value = false
+        await clearLoginStatus()
 
         ElMessage.success(response?.message)
       } catch (error: unknown) {
@@ -141,6 +144,7 @@ export const useAuthStore = defineStore(
       isAuthenticated,
       setToken,
       handleLogin,
+      clearLoginStatus,
       logout,
       initAuth,
       refreshAccessToken,

@@ -45,3 +45,15 @@ interface IUserUpdateProfile {
     }
   }
 }
+
+interface IEmailCode {
+  status: string
+  message: string
+  data: null
+}
+
+interface IUserUpdatePassword {
+  status: string
+  message: string
+  data: null
+}

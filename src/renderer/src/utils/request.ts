@@ -156,7 +156,7 @@ servers.interceptors.response.use(
         // 如果刷新token失败，确保所有排队等待新 AT 的请求都收到刷新失败的错误，避免它们继续挂起
         processQueue(refreshError, null)
 
-        await authStore.logout()
+        await authStore.clearLoginStatus()
 
         ElMessage.error('会话已过期，请重新登录')
 
