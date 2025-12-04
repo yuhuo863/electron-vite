@@ -37,8 +37,8 @@ export const createPermissionGuard = (router: Router): void => {
         // 2. 已登录的情况
         if (isAuthenticated) {
           if (isGoingToLogin) {
-            // 2.1. 用户已登录，但访问登录页 -> 强制跳回首页
-            next({ path: '/' })
+            // 2.1. 用户已登录，但访问登录页 -> 强制跳回原来的页面或首页
+            next(from.fullPath || '/')
           } else {
             // 2.2. 用户已登录，访问受保护或普通页 -> 正常放行
             next()

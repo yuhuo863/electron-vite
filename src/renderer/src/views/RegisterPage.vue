@@ -17,7 +17,7 @@
             </el-form-item>
 
             <el-form-item label="注册邮箱" prop="email">
-              <el-input v-model="form.email" />
+              <el-input v-model="form.email" type="email" />
             </el-form-item>
 
             <el-form-item label="注册密码" prop="password">
@@ -82,7 +82,8 @@ const form = reactive({
 const rules = reactive<FormRules>({
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+  captchaText: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
 })
 
 const router = useRouter()

@@ -19,12 +19,14 @@
 </template>
 
 <script setup lang="ts">
-const handleMinimize = async (): Promise<void> => {
-  await window.authAPI.minimizeWindow()
+const handleMinimize = (): void => {
+  // alert('Minimize Button Clicked!')
+  window.authAPI.minimizeWindow()
 }
 
-const handleClose = async (): Promise<void> => {
-  await window.authAPI.closeWindow()
+const handleClose = (): void => {
+  // alert('Close Button Clicked!')
+  window.authAPI.closeWindow()
 }
 </script>
 

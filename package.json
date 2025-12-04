@@ -42,6 +42,7 @@
     "@electron-toolkit/eslint-config-ts": "^3.1.0",
     "@electron-toolkit/tsconfig": "^2.0.0",
     "@types/express": "^5.0.5",
+    "@unocss/preset-wind3": "^66.5.10",
     "@vitejs/plugin-vue": "^6.0.1",
     "electron": "^38.1.2",
     "electron-builder": "^25.1.8",

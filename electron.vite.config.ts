@@ -100,7 +100,32 @@ export default defineConfig(({ command, mode }) => {
             '@renderer': pathSrc
           }
         },
-        plugins: [Vue()]
+        plugins: [
+          Vue(),
+          Unocss(),
+          AutoImport({
+            resolvers: [
+              // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
+              ElementPlusResolver()
+            ]
+          }),
+          Components({
+            resolvers: [
+              // 自动导入 Element Plus 组件
+              ElementPlusResolver()
+            ]
+          })
+        ],
+        server: {
+          open: false,
+          proxy: {
+            '/api': {
+              target: env.VITE_BACKEND_URL,
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/api/, '')
+            }
+          }
+        }
       }
     }
   }

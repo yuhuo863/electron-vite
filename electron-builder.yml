@@ -5,7 +5,6 @@ productName: KeyVault
 # 定义构建资源目录，放置图标、证书等资源文件
 directories:
   buildResources: build # 构建过程中使用的资源文件夹路径
-  icon: build/icon.png # 构建过程中使用的图标文件路径
 # 指定要包含或排除的文件模式
 files:
   - '!**/.vscode/*' # 排除 .vscode 文件夹中的所有内容

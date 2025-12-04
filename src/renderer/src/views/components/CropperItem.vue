@@ -114,7 +114,35 @@ const restartUpload = (): void => {
   ;(document.querySelector('.el-upload .el-button') as HTMLElement).click()
 }
 
-const previews = ref({})
+type DataType = {
+  w: number
+  h: number
+  div: {
+    width: string
+    height: string
+  }
+  url: string
+  img: {
+    width: string
+    height: string
+    transform: string
+  }
+}
+
+const previews = ref<DataType>({
+  w: 0,
+  h: 0,
+  div: {
+    width: '0px',
+    height: '0px'
+  },
+  url: '',
+  img: {
+    width: '0px',
+    height: '0px',
+    transform: 'translate(0px, 0px)'
+  }
+})
 const onRealTime = (data): void => {
   previews.value = data
 }
@@ -148,7 +176,7 @@ const handleFileChange = (file): void => {
     let data
     if (typeof e.target?.result === 'object') {
       // 把 Array Buffer 转化为 blob
-      data = window.URL.createObjectURL(new Blob([e.target?.result]))
+      data = window.URL.createObjectURL(new Blob([e.target?.result as ArrayBuffer]))
     } else {
       // 如果是 base64 字符串，直接赋值给 cropImage 用于预览
       data = e.target?.result
