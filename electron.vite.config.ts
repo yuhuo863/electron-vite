@@ -97,7 +97,7 @@ export default defineConfig(({ command, mode }) => {
       renderer: {
         resolve: {
           alias: {
-            '@renderer': resolve('src/renderer/src')
+            '@renderer': pathSrc
           }
         },
         plugins: [Vue()]

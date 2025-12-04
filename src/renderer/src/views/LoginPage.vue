@@ -1,7 +1,6 @@
 <template>
-  <div class="login-page">
-    <Operation />
-    <div class="flex flex-col items-center pt-12">
+  <div class="pt-10">
+    <div class="flex flex-col items-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24">
         <path
           fill="currentColor"
@@ -9,56 +8,56 @@
         />
       </svg>
 
-      <h2 class="text-2xl font-family font-bold">KeyValut</h2>
-      <div>
-        <el-form
-          ref="loginForm"
-          :model="formData"
-          :rules="rules"
-          label-position="top"
-          hide-required-asterisk
-          :show-message="false"
-          @keyup.enter="handleLogin(loginFormEl)"
-        >
-          <el-form-item label="Username" prop="username">
-            <el-input
-              v-model="formData.username"
-              style="width: 240px; height: 36px"
-              prefix-icon="User"
-              placeholder="用户名/邮箱"
-            />
-          </el-form-item>
-          <el-form-item label="Password" prop="password">
-            <el-input
-              v-model="formData.password"
-              type="password"
-              show-password
-              style="width: 240px; height: 36px"
-              prefix-icon="Lock"
-              placeholder="密码"
-            />
-          </el-form-item>
-          <div class="flex justify-between">
-            <el-button type="text">忘记密码</el-button>
-            <el-button type="text" @click="handleRegister">立即注册</el-button>
-          </div>
-          <el-form-item>
-            <el-button
-              color="#626aef"
-              style="width: 240px"
-              :loading="loading"
-              @click="handleLogin(loginFormEl)"
-              >登录</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </div>
+      <h2 class="text-2xl font-bold">KeyValut</h2>
+    </div>
+    <div class="mt-2">
+      <el-form
+        ref="loginForm"
+        :model="formData"
+        :rules="rules"
+        label-position="top"
+        hide-required-asterisk
+        :show-message="false"
+        @keyup.enter="handleLogin(loginFormEl)"
+      >
+        <el-form-item label="Username" prop="username">
+          <el-input
+            v-model="formData.username"
+            style="width: 240px; height: 36px"
+            prefix-icon="User"
+            placeholder="用户名/邮箱"
+          />
+        </el-form-item>
+        <el-form-item label="Password" prop="password">
+          <el-input
+            v-model="formData.password"
+            type="password"
+            show-password
+            style="width: 240px; height: 36px"
+            prefix-icon="Lock"
+            placeholder="密码"
+          />
+        </el-form-item>
+        <div class="flex justify-between">
+          <el-button type="text" @click="handleForgetPassword">忘记密码</el-button>
+          <el-button type="text" @click="handleRegister">立即注册</el-button>
+        </div>
+        <el-form-item>
+          <el-button
+            color="#626aef"
+            style="width: 240px"
+            :loading="loading"
+            @click="handleLogin(loginFormEl)"
+          >
+            登录
+          </el-button>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Operation from '@renderer/components/Operation.vue'
 import { useAuthStore } from '@renderer/stores/auth'
 import { ElMessage, FormInstance } from 'element-plus'
 import { reactive, ref, useTemplateRef } from 'vue'
@@ -100,21 +99,13 @@ const handleLogin = (formEl: FormInstance | undefined): void => {
   })
 }
 
+const handleForgetPassword = (): void => {
+  router.push('/auth/forgot-password')
+}
+
 const handleRegister = (): void => {
-  console.log('register!')
+  router.push('/auth/register')
 }
 </script>
 
-<style scoped>
-.login-page {
-  height: 100vh;
-  overflow: hidden;
-  background-image: url('../assets/wavy-lines.svg');
-  background-size: cover;
-  background-color: thistle;
-}
-
-.font-family {
-  font-family: 'Maple Mono';
-}
-</style>
+<style scoped></style>

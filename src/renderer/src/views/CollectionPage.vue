@@ -111,6 +111,9 @@ import { onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useCollectStore } from '@renderer/stores/collection'
 import { useDebounceFn } from '@vueuse/core'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const collectStroe = useCollectStore()
 onMounted(async () => {
@@ -144,8 +147,8 @@ const handleCopy = async (text: string, label = '内容'): Promise<void> => {
 }
 
 // 前往所有密码页
-const goToAllPasswords = () => {
-  ElMessage.info('跳转到「所有密码」页面')
+const goToAllPasswords = (): void => {
+  router.push('/password')
 }
 </script>
 

@@ -30,7 +30,7 @@ export const createPermissionGuard = (router: Router): void => {
       // 当拦截器清除 store 状态时，isAuthenticated 会变为 false
       const isAuthenticated = authStore.userInfo && authStore.accessToken
       // 判断目标路由是否是登录页
-      const isGoingToLogin = to.meta.isLoginPage || to.path === '/login'
+      const isGoingToLogin = to.meta.isLoginPage || to.path === '/auth'
       // 判断目标路由是否需要认证
       const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
       try {
@@ -50,7 +50,7 @@ export const createPermissionGuard = (router: Router): void => {
           // 3.1. 用户未登录 (或被拦截器踢出导致状态丢失)，访问受保护页 -> 跳转到登录页
           // 拦截器在清除状态后，下一次路由导航就会命中此逻辑
           next({
-            path: '/login',
+            path: '/auth',
             query: { redirect: to.fullPath }, // 携带 redirect 参数，登录后自动跳回
             replace: true // 替换当前记录，避免回退到被拦截的页面
           })
@@ -60,7 +60,7 @@ export const createPermissionGuard = (router: Router): void => {
         }
       } catch (error) {
         console.error('路由守卫异常：', error)
-        next({ path: '/login' }) // 导航失败，保险起见跳转到登录页
+        next({ path: '/auth' }) // 导航失败，保险起见跳转到登录页
       }
     }
   )

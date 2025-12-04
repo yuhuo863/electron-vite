@@ -13,8 +13,8 @@ export default {
   sendEmailCode: (email: string): Promise<IEmailCode> =>
     servers.post('/users/email-captcha', { email }),
   /**验证邮箱验证码 */
-  verifyEmailCode: (email: string, code: string): Promise<IEmailCode> =>
-    servers.post('/users/email-captcha/verify', { email, code }),
+  verifyEmailCode: (newPassword: string, email: string, code: string): Promise<IEmailCode> =>
+    servers.post('/users/email-captcha/verify', { newPassword, email, code }),
   /**更新账号密码 */
   updatePassword: (currentPassword: string, newPassword: string): Promise<IUserUpdatePassword> =>
     servers.put('/users/password', { currentPassword, newPassword })

@@ -1,61 +1,69 @@
-appId: com.electron.app
-productName: electron-app
+# 唯一的应用程序标识符，用于操作系统级别的识别
+appId: com.yuhuo.app
+# 应用程序的名称，显示在用户界面上
+productName: KeyVault
+# 定义构建资源目录，放置图标、证书等资源文件
 directories:
-  buildResources: build
+  buildResources: build # 构建过程中使用的资源文件夹路径
+  icon: build/icon.png # 构建过程中使用的图标文件路径
+# 指定要包含或排除的文件模式
 files:
-  - '!**/.vscode/*'
-  - '!src/*'
-  - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
-  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
-  # 关键：确保后端目录不被排除（若后端目录是 backend-service/，需添加此规则）
-  # - '!../backend-service/**/*.{test.js,test.ts}'  # 仅排除后端的测试文件，保留核心代码
-# extraResources:
-#   # 配置后端代码的打包规则：将本地后端目录复制到 resources/backend
-#   - from: ../backend-service  # 本地后端项目的根目录（替换为你的实际后端目录路径）
-#     to: backend           # 打包后在 resources 中的目录名（固定为 backend，与主进程代码对应）
-#     filter:               # 过滤：仅打包后端核心运行文件，排除开发依赖和无用文件
-#       - '**/*'            # 包含后端所有文件
-#       - '!../backend-service/node_modules/**/*.{md,ts,test.js}'  # 排除 node_modules 中的非运行文件
-#       - '!../backend-service/{.gitignore,.env,.eslintrc.js}'     # 排除后端的开发配置文件
-#       - '!../backend-service/{tests,docs}'                       # 排除后端的测试、文档目录
+  - '!**/.vscode/*' # 排除 .vscode 文件夹中的所有内容
+  - '!**/.zed/*' # 排除 .zed 文件夹中的所有内容
+  - '!src/*' # 排除 src 文件夹中的所有源代码（已经由 Vite 处理）
+  - '!electron.vite.config.{js,ts,mjs,cjs}' # 排除 electron-vite 配置文件
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}' # 排除开发工具配置文件
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}' # 排除环境变量和依赖锁定文件
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}' # 排除 TypeScript 配置文件
+# 启用 ASAR 打包，将应用文件打包成单个压缩文件以提高安全性
+asar: true
+# 指定需要解压的 ASAR 文件夹，通常用于包含二进制文件或其他不能被打包到 ASAR 中的资源
 asarUnpack:
   - resources/**
+# Windows 平台配置
 win:
-  executableName: electron-app
+  executableName: KeyVault
   target:
     - nsis # 确保目标是 NSIS 安装包（默认是，可明确指定）
-nsis:
-  artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
-  createDesktopShortcut: always # options: always, never, or notDeclared
-  oneClick: false # 关闭一键安装，改为手动确认
+nsis: # NSIS (Nullsoft Scriptable Install System) 配置
+  artifactName: ${name}-${version}-setup.${ext} # 生成的安装包文件名模板
+  shortcutName: ${productName} # 创建的桌面快捷方式名称
+  uninstallDisplayName: ${productName} #  卸载时显示的应用名称
+  createDesktopShortcut: always # 总是创建桌面快捷方式
+  oneClick: false # 禁用一键安装模式，允许用户选择安装选项
   allowToChangeInstallationDirectory: true # 允许用户更改安装目录
   runAfterFinish: false # 安装完成后自动运行应用（可选，默认 true)
+  perMachine: true # 为所有用户安装，而不是仅限当前用户
+# macOS 平台配置
 mac:
-  entitlementsInherit: build/entitlements.mac.plist
-  extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
-  notarize: false
+  entitlementsInherit: build/entitlements.mac.plist # 指定继承的权限文件路径
+  extendInfo: # 扩展 Info.plist 文件的信息
+    - NSCameraUsageDescription: Application requests access to the device's camera. # 请求访问摄像头的描述
+    - NSMicrophoneUsageDescription: Application requests access to the device's microphone. # 请求访问麦克风的描述
+    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder. # 请求访问用户文档文件夹的描述
+    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder. # 请求访问用户下载文件夹的描述
+  notarize: false # 禁用苹果公证服务（可根据需要启用）
+# macOS DMG 配置
 dmg:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${name}-${version}.${ext} # 生成的 DMG 文件名模板
+# Linux 平台配置
 linux:
   target:
-    - AppImage
-    - snap
-    - deb
-  maintainer: electronjs.org
-  category: Utility
+    - AppImage # 生成 AppImage 格式的安装包
+    - snap # 生成 Snap 格式的安装包
+    - deb # 生成 Debian 格式的安装包
+  maintainer: electronjs.org # 维护者信息
+  category: Utility # 应用类别
+# # AppImage 配置
 appImage:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${name}-${version}.${ext} # 生成的 AppImage 文件名模板
+# 是否在构建过程中重新构建原生模块，默认为 false
 npmRebuild: false
+
+# 自动更新配置
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: generic # 使用通用的发布提供者
+  url: https://example.com/auto-updates # 自动更新服务器的 URL
+# Electron 下载配置
 electronDownload:
-  mirror: https://npmmirror.com/mirrors/electron/
+  mirror: https://npmmirror.com/mirrors/electron/ # 使用国内镜像加速 Electron 的下载
