@@ -28,9 +28,8 @@ contextBridge.exposeInMainWorld('authAPI', {
   /**
    * 登录操作
    */
-  windowResize: (data: windowProps): void => {
-    return ipcRenderer.send('window:resize', data)
-  },
+  windowResize: (data: windowProps) => ipcRenderer.send('window:resize', data),
+
   /**
    * 最小化窗口
    */

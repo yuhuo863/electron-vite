@@ -87,7 +87,11 @@
       </div>
     </div>
 
-    <div>
+    <div v-if="pwdStore.passwordList.length === 0">
+      <el-empty description="暂无密码" />
+    </div>
+
+    <div v-else>
       <el-row :gutter="20">
         <el-col
           v-for="item in pwdStore.passwordList"

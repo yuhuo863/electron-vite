@@ -30,7 +30,7 @@ function createWindow(): void {
     width: 500, // 初始宽度（登录页大小）
     height: 500, // 初始高度（登录页大小）
     resizable: false, // 禁止窗口调整大小
-    frame: false, // 去除窗口边框
+    frame: false, // 禁用系统原生窗口边框
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
     ...(process.platform === 'linux' ? { icon } : {}),
     show: false,
@@ -38,7 +38,7 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      sandbox: true,
+      sandbox: false,
       webSecurity: true,
       preload: join(__dirname, '../preload/index.js'),
       devTools: app.isPackaged ? false : true,

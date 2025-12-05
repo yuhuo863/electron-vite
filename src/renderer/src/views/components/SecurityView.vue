@@ -144,11 +144,11 @@ const handleBeforeChange = (): Promise<boolean> => {
   // Handle switch change logic here
   isLoading.value = true
   // 传递给接口即将变化的值(变化之前的值取反)
-  const switchingValue = !switchValue.value
+  // const switchingValue = !switchValue.value
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
-      const result = await someAsyncFunction(switchingValue)
-      if (result) {
+      // const result = await someAsyncFunction(switchingValue)
+      if (isLoading.value) {
         isLoading.value = false
         ElMessage({
           message: 'Switch value changed: ' + !switchValue.value,

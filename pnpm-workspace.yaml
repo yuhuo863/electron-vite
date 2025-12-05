@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
   - electron
   - esbuild
+  - javascript-obfuscator
   - vue-demi

@@ -19,12 +19,12 @@
 </template>
 
 <script setup lang="ts">
-const handleMinimize = async (): Promise<void> => {
-  await window.authAPI.minimizeWindow()
+const handleMinimize = (): void => {
+  window.authAPI.minimizeWindow()
 }
 
-const handleClose = async (): Promise<void> => {
-  await window.authAPI.closeWindow()
+const handleClose = (): void => {
+  window.authAPI.closeWindow()
 }
 </script>
 

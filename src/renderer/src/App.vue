@@ -4,10 +4,11 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const handleResize = async (newPath: string): Promise<void> => {
-  const isLoginPage = newPath === '/login'
+const handleResize = (newPath: string): void => {
+  const isLoginPage =
+    newPath === '/auth' || newPath === '/auth/register' || newPath === '/auth/forgot-password'
   // 向 Electron 主进程发送窗口调整指令
-  await window.authAPI.windowResize({
+  window.authAPI.windowResize({
     width: isLoginPage ? 500 : 1000,
     height: isLoginPage ? 500 : 700,
     resizable: !isLoginPage
@@ -17,9 +18,11 @@ watch(
   () => route.path,
   (newPath, oldPath) => {
     // 检查新的路径是否是登录页
-    const isNewLogin = newPath === '/login'
+    const isNewLogin =
+      newPath === '/auth' || newPath === '/auth/register' || newPath === '/auth/forgot-password'
     // 检查旧的路径是否是登录页
-    const wasOldLogin = oldPath === '/login'
+    const wasOldLogin =
+      oldPath === '/auth' || oldPath === '/auth/register' || oldPath === '/auth/forgot-password'
 
     // 判断是否是首次初始化(未退出登录,尝试恢复登录态)
     const isInit = oldPath === undefined

@@ -4,7 +4,7 @@ An Electron application with Vue and TypeScript
 
 ## Recommended IDE Setup
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [VSCode](https://codevisualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
 ## Project Setup
 
@@ -70,6 +70,8 @@ TODO: 封装请求按钮【vue中如何优雅的处理按钮loading】 https://w
 
 确保动态生成的元素也能正确设置为不可拖拽：动态生成元素时主动添加 no-drag 类
 
-点击分类项(当前分类下的所有密码)和已收藏密码项(密码详情)可以调整到或弹出相应的详情列表页
+TODO:点击分类项(当前分类下的所有密码)和已收藏密码项(密码详情)可以调整到或弹出相应的详情列表页
 
-删除密码到回收站时需要判断密码是否已被收藏，如果已收藏则提示用户同时取消收藏，如果未收藏则直接删除
+admin123-admin123A
+yuhuo666-12345678
+yuhuo888-12345678

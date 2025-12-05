@@ -50,7 +50,7 @@ const authStore = useAuthStore()
 const { userInfo } = authStore
 
 const loading = ref(false)
-const avatarFeedbackURL = 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+const avatarFeedbackURL = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const handleAvatarError = (): boolean => true
 const blobData = ref<Blob | null>(null)
 const currentImageType = ref('')

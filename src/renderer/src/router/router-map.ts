@@ -3,17 +3,50 @@ import LoginPage from '@renderer/views/LoginPage.vue'
 import LandingPage from '@renderer/layouts/LandingPage.vue'
 import DataBoard from '@renderer/layouts/DataBoard.vue'
 import GeneralView from '@renderer/views/GeneralView.vue'
+import AuthPage from '@renderer/views/AuthPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/login',
-    name: 'login',
-    component: LoginPage,
+    path: '/auth',
+    name: 'auth',
+    component: AuthPage,
     meta: {
-      title: '登录',
+      title: 'Auth',
       requiresAuth: false,
       isLoginPage: true
-    }
+    },
+    children: [
+      {
+        path: '',
+        name: 'login',
+        component: LoginPage,
+        meta: {
+          title: '登录',
+          requiresAuth: false,
+          isLoginPage: true
+        }
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: () => import('@renderer/views/RegisterPage.vue'),
+        meta: {
+          title: '注册',
+          requiresAuth: false,
+          isLoginPage: true
+        }
+      },
+      {
+        path: 'forgot-password',
+        name: 'forgot-password',
+        component: () => import('@renderer/views/ForgotPasswordPage.vue'),
+        meta: {
+          title: '忘记密码',
+          requiresAuth: false,
+          isLoginPage: true
+        }
+      }
+    ]
   },
   {
     path: '/',

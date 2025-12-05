@@ -83,6 +83,7 @@ const handleSelectionChange = (items): void => {
   selectedPasswordIds.value = items.map((item) => item.id)
 }
 const handleSelectAll = (items): void => {
+  console.log('handleSelectAll', items)
   ElMessage.warning('请谨慎执行后续全选操作')
 }
 
@@ -156,7 +157,7 @@ const handleForceDeletePasswords = (passwordIds: string[]): void => {
 }
 
 // 当前页码改变
-const handleCurrentChange = async (val: number): void => {
+const handleCurrentChange = async (val: number): Promise<void> => {
   trashStore.currentPage = val
   await trashStore.fetchTrashedPassword()
 }

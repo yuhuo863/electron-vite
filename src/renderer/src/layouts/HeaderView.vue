@@ -29,7 +29,9 @@
         </el-tooltip>
         <div>
           <el-dropdown trigger="click" class="cursor-pointer" @command="handleCommand">
-            <el-avatar :src="authStore.userInfo?.avatar" size="small" @error="errorHandler" />
+            <el-avatar :src="authStore.userInfo?.avatar" size="small" @error="errorHandler">
+              <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+            </el-avatar>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile" icon="User">个人资料</el-dropdown-item>
@@ -93,7 +95,7 @@ const handleCommand = async (command: string): Promise<void> => {
       break
     case 'logout':
       await authStore.logout()
-      router.push('/login')
+      router.push('/auth')
       break
   }
 }
