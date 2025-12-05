@@ -2,7 +2,11 @@
   <div>
     <div class="reset-password-container">
       <div class="reset-password-card space-y-2">
+<<<<<<< HEAD
         <h2 class="text-2xl font-bold text-center">用户注册</h2>
+=======
+        <h2 class="text-2xl font-bold text-center">注册用户</h2>
+>>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
         <div>
           <el-form
             ref="registerFormEl"
@@ -13,6 +17,7 @@
             :show-message="false"
           >
             <el-form-item label="用户名" prop="username">
+<<<<<<< HEAD
               <el-input v-model="form.username" placeholder="请输入用户名" />
             </el-form-item>
 
@@ -27,23 +32,48 @@
             <el-form-item label="验证码" prop="captchaText">
               <div class="flex gap-.5">
                 <el-input v-model="form.captchaText" class="w-30" placeholder="请输入验证码" />
+=======
+              <el-input v-model="form.username" />
+            </el-form-item>
+
+            <el-form-item label="注册邮箱" prop="email">
+              <el-input v-model="form.email" type="email" />
+            </el-form-item>
+
+            <el-form-item label="注册密码" prop="password">
+              <el-input v-model="form.password" type="password" />
+            </el-form-item>
+
+            <el-form-item prop="captchaText">
+              <div class="flex gap-1">
+                <el-input v-model="form.captchaText" class="w-40 h-10" />
+>>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
                 <img
                   :src="captchaDataUrl"
                   title="点击刷新"
                   alt="验证码"
+<<<<<<< HEAD
                   class="no-drag cursor-pointer h-9"
+=======
+                  class="no-drag cursor-pointer"
+>>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
                   @click="getCaptcha"
                 />
               </div>
             </el-form-item>
 
             <el-form-item label=" ">
+<<<<<<< HEAD
               <div class="flex">
                 <el-button type="default" @click="backToLogin">返回登录</el-button>
                 <el-button type="primary" @click="handleRegister(registerFormEl)"
                   >立即注册</el-button
                 >
               </div>
+=======
+              <el-button type="default" @click="backToLogin">返回登录</el-button>
+              <el-button type="primary" @click="handleRegister(registerFormEl)">注册</el-button>
+>>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
             </el-form-item>
           </el-form>
         </div>
@@ -123,16 +153,26 @@ const handleRegister = async (formEl: FormInstance | null): Promise<void> => {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+<<<<<<< HEAD
   width: 350px;
 }
 .reset-password-card {
   width: 100%;
   max-width: 400px;
+=======
+}
+.reset-password-card {
+  width: 100%;
+  max-width: 350px;
+>>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 30px 20px;
 }
+<<<<<<< HEAD
 .el-input {
   height: 38px;
 }
+=======
+>>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
 </style>
