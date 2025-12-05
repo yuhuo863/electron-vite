@@ -20,18 +20,10 @@
 
 <script setup lang="ts">
 const handleMinimize = (): void => {
-<<<<<<< HEAD
-=======
-  // alert('Minimize Button Clicked!')
->>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
   window.authAPI.minimizeWindow()
 }
 
 const handleClose = (): void => {
-<<<<<<< HEAD
-=======
-  // alert('Close Button Clicked!')
->>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
   window.authAPI.closeWindow()
 }
 </script>

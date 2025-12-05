@@ -30,7 +30,7 @@
           >
             <div class="p-4 bg-gray-50 flex justify-between items-start">
               <div class="flex items-center gap-3">
-                <el-avatar shape="square" :size="40" class="bg-white text-blue-500 shadow-sm">
+                <el-avatar shape="square" :size="40" class="bg-pink-100/80 text-blue-500 shadow-sm">
                   <el-icon :size="24"><component :is="item.category.icon" /></el-icon>
                 </el-avatar>
                 <div>

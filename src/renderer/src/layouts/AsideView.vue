@@ -37,19 +37,14 @@
           <el-icon><Setting /></el-icon>
           <span>应用设置</span>
         </el-menu-item>
-        <div v-if="isAdmin">
-          <div class="ml-5">
-            <span class="menu-group-title"> 管理员 </span>
-          </div>
-          <el-menu-item index="/admin">
-            <el-icon><Avatar /></el-icon>
-            <span>管理面板</span>
-          </el-menu-item>
-          <el-menu-item index="/changelog">
-            <el-icon><HelpFilled /></el-icon>
-            <span>系统更新</span>
-          </el-menu-item>
-        </div>
+        <el-menu-item index="/changelog">
+          <el-icon><HelpFilled /></el-icon>
+          <span>系统更新</span>
+        </el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/admin">
+          <el-icon><Avatar /></el-icon>
+          <span>管理面板</span>
+        </el-menu-item>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -84,7 +79,7 @@ onBeforeRouteUpdate((to) => {
 .aside-container {
   height: 100%; /* 触达视口底部 */
   overflow: hidden; /* 隐藏外层滚动，仅内层菜单滚动 */
-  background-color: var(--el-menu-bg-color); /* 与菜单背景一致 */
+  background-color: snow; /* 与菜单背景一致 */
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* 轻微阴影增强层次感 */
 }
 /* 滚动容器：高度自适应外层，仅内容溢出时滚动 */

@@ -14,7 +14,7 @@
 
     <div class="no-drag flex items-center">
       <div class="flex space-x-3 mt1">
-        <el-tooltip content="产品更新动态" effect="light">
+        <el-tooltip content="应用更新动态" effect="light">
           <div
             class="hover:color-gray-500 cursor-pointer hover:bg-gray-100/80"
             @click="handleChangelogClick"
@@ -106,6 +106,6 @@ const handleChangelogClick = (): void => {
 
 <style scoped>
 .header-group {
-  background-color: var(--el-menu-bg-color); /* 与菜单背景一致 */
+  background-color: snow; /* 与菜单背景一致 */
 }
 </style>

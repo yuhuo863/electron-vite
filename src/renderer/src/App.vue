@@ -4,11 +4,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-<<<<<<< HEAD
 const handleResize = (newPath: string): void => {
-=======
-const handleResize = async (newPath: string): Promise<void> => {
->>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
   const isLoginPage =
     newPath === '/auth' || newPath === '/auth/register' || newPath === '/auth/forgot-password'
   // 向 Electron 主进程发送窗口调整指令

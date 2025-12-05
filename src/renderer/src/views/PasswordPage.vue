@@ -79,11 +79,42 @@
           </template>
         </el-input>
       </div>
-      <div>
-        <el-button>
-          <el-icon><Filter /></el-icon>
-          筛选
-        </el-button>
+      <div class="ml-2">
+        <el-dropdown trigger="click" @command="handleFilter">
+          <el-button>
+            <el-icon><Filter /></el-icon>
+            {{ currentCategoryLabel }}
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="all">全部分类</el-dropdown-item>
+              <el-dropdown-item
+                v-for="category in categoryStore.categoryList"
+                :key="category.id"
+                :command="category.id"
+              >
+                {{ category.name }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+
+      <div class="ml-2">
+        <el-dropdown trigger="click" @command="handleSort">
+          <el-button>
+            <el-icon><Sort /></el-icon>
+            {{ currentSortLabel }}
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="createdAt-DESC">创建时间 (倒序)</el-dropdown-item>
+              <el-dropdown-item command="createdAt-ASC">创建时间 (正序)</el-dropdown-item>
+              <el-dropdown-item command="updatedAt-DESC">更新时间 (倒序)</el-dropdown-item>
+              <el-dropdown-item command="updatedAt-ASC">更新时间 (正序)</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </div>
 
@@ -193,22 +224,64 @@ import { useCategoryStore } from '@renderer/stores/category'
 import { usePwdStore } from '@renderer/stores/password'
 import { useDebounceFn } from '@vueuse/core'
 import { ElMessage, FormInstance, FormRules } from 'element-plus'
-import { ref, onMounted, useTemplateRef, reactive } from 'vue'
+import { ref, onMounted, useTemplateRef, reactive, computed } from 'vue'
 
 const pwdStore = usePwdStore()
 const categoryStore = useCategoryStore()
 
+const currentCategoryLabel = computed(() => {
+  const category = categoryStore.categoryList.find((c) => c.id === selectedCategoryId.value)
+  return category ? category.name : '全部分类'
+})
+
 const searchPassword = ref('')
+const currentSort = ref('createdAt-DESC')
+
+const currentSortLabel = computed(() => {
+  const [field, direction] = currentSort.value.split('-')
+  const fieldMap = {
+    createdAt: '创建时间',
+    updatedAt: '更新时间',
+    title: '名称'
+  }
+  const directionMap = {
+    DESC: '倒序',
+    ASC: '正序'
+  }
+  return `${fieldMap[field] || '默认'} (${directionMap[direction] || ''})`
+})
+
+const getDataByQuery = async (): Promise<void> => {
+  const [sortBy, sortOrder] = currentSort.value.split('-')
+  await pwdStore.getPasswordList({
+    categoryId: selectedCategoryId.value || undefined,
+    search: searchPassword.value || undefined,
+    sortBy: sortBy || 'createdAt',
+    sortOrder: (sortOrder as 'DESC' | 'ASC') || 'DESC'
+  })
+}
+
+const handleSort = async (command: string): Promise<void> => {
+  currentSort.value = command
+  await getDataByQuery()
+}
 
 const handleCurrentChange = async (val: number): Promise<void> => {
   pwdStore.currentPage = val
-  await pwdStore.getPasswordList()
+  await getDataByQuery()
 }
 
 onMounted(async () => {
   await pwdStore.getPasswordList()
   await categoryStore.fetchCategories()
 })
+const selectedCategoryId = ref('')
+const handleFilter = async (categoryId: string): Promise<void> => {
+  selectedCategoryId.value = categoryId === 'all' ? '' : categoryId
+  pwdStore.currentPage = 1
+  await getDataByQuery()
+}
+
 const togglePasswordVisibility = (item): void => {
   item.showPassword = !item.showPassword
 }
@@ -221,8 +294,13 @@ const toggleFavorite = async (item): Promise<void> => {
 const debounceToggleFavorite = useDebounceFn(toggleFavorite, 200)
 
 const handleSearch = async (keyword: string): Promise<void> => {
+  pwdStore.currentPage = 1
+  const [sortBy, sortOrder] = currentSort.value.split('-')
   await pwdStore.getPasswordList({
-    search: keyword
+    search: keyword || undefined,
+    categoryId: selectedCategoryId.value || undefined,
+    sortBy: sortBy || 'createdAt',
+    sortOrder: (sortOrder as 'DESC' | 'ASC') || 'DESC'
   })
 }
 

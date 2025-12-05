@@ -78,7 +78,7 @@
       <el-table :data="categoryStore.categoryList" style="width: 100%">
         <el-table-column prop="name" label="分类名称" align="center" width="200">
           <template #default="{ row }">
-            <div class="flex justify-start items-center space-x-2 ml-8">
+            <div class="flex items-center space-x-1 ml-8">
               <el-icon :color="row.color">
                 <component :is="row.icon"></component>
               </el-icon>

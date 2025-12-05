@@ -49,6 +49,7 @@ export const useAuthStore = defineStore(
         const response = await auth.loginApi(data)
         const { accessToken, refreshToken } = response.data
 
+        // 无论之前有没有存储，都覆盖为新的令牌
         await window.authAPI.saveTokens({ accessToken, refreshToken })
 
         setToken(accessToken)

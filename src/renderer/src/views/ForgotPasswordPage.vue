@@ -1,11 +1,7 @@
 <template>
   <div class="reset-password-container">
     <div class="reset-password-card space-y-2">
-<<<<<<< HEAD
       <h2 class="text-center font-bold">重置密码</h2>
-=======
-      <h2 class="text-center font-bold">忘记密码</h2>
->>>>>>> 2d98a9e541e4978c348eaf133ff29a9040fdcf00
       <div>
         <el-form
           ref="codeFormRef"
