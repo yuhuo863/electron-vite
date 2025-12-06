@@ -28,13 +28,35 @@ interface windowProps {
   resizable: boolean
 }
 
+interface LocalIp {
+  name: string
+  address: string
+}
+
+interface SystemInfo {
+  type: string
+  platform: string
+  release: string
+  uptime: number
+  hostname: string
+  arch: string
+  cpus: {
+    model: string
+    cores: number
+  }
+  totalMemBytes: number
+  freeMemBytes: number
+  localIps: LocalIp[]
+}
+
 interface Window {
   authAPI: {
     saveTokens: (token: IToken) => Promise<void>
     getTokens: () => Promise<IToken | null>
     removeTokens: () => Promise<void>
-    windowResize: (data: windowProps) => Promise<void>
-    minimizeWindow: () => Promise<void>
-    closeWindow: () => Promise<void>
+    windowResize: (data: windowProps) => void
+    minimizeWindow: () => void
+    closeWindow: () => void
+    getSystemInfo: () => Promise<SystemInfo>
   }
 }

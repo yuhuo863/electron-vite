@@ -75,11 +75,24 @@
           @change="handleSearch"
         >
           <template #prepend>
-            <el-button icon="Search" @click="handleSearch(searchPassword)" />
+            <el-button icon="Search" @click="debounceHandleSearch(searchPassword)" />
           </template>
         </el-input>
       </div>
-      <div class="ml-2">
+      <div class="ml1">
+        <el-dropdown trigger="click" @command="handleQuery">
+          <el-button>
+            <el-icon><Select /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item icon="Shop" command="all">全部</el-dropdown-item>
+              <el-dropdown-item icon="StarFilled" command="favorite">收藏</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+      <div class="ml1">
         <el-dropdown trigger="click" @command="handleFilter">
           <el-button>
             <el-icon><Filter /></el-icon>
@@ -100,7 +113,7 @@
         </el-dropdown>
       </div>
 
-      <div class="ml-2">
+      <div class="ml1">
         <el-dropdown trigger="click" @command="handleSort">
           <el-button>
             <el-icon><Sort /></el-icon>
@@ -236,6 +249,7 @@ const currentCategoryLabel = computed(() => {
 
 const searchPassword = ref('')
 const currentSort = ref('createdAt-DESC')
+const currentFavorite = ref<boolean>()
 
 const currentSortLabel = computed(() => {
   const [field, direction] = currentSort.value.split('-')
@@ -251,24 +265,46 @@ const currentSortLabel = computed(() => {
   return `${fieldMap[field] || '默认'} (${directionMap[direction] || ''})`
 })
 
-const getDataByQuery = async (): Promise<void> => {
+const getDataByQuery = async (isFavorite?: boolean): Promise<void> => {
   const [sortBy, sortOrder] = currentSort.value.split('-')
   await pwdStore.getPasswordList({
     categoryId: selectedCategoryId.value || undefined,
     search: searchPassword.value || undefined,
     sortBy: sortBy || 'createdAt',
-    sortOrder: (sortOrder as 'DESC' | 'ASC') || 'DESC'
+    sortOrder: (sortOrder as 'DESC' | 'ASC') || 'DESC',
+    isFavorite
   })
 }
 
 const handleSort = async (command: string): Promise<void> => {
   currentSort.value = command
-  await getDataByQuery()
+  if (currentFavorite.value) {
+    await getDataByQuery(currentFavorite.value)
+  } else {
+    await getDataByQuery()
+  }
 }
 
 const handleCurrentChange = async (val: number): Promise<void> => {
   pwdStore.currentPage = val
-  await getDataByQuery()
+  if (currentFavorite.value) {
+    await getDataByQuery(currentFavorite.value)
+  } else {
+    await getDataByQuery()
+  }
+}
+
+const handleQuery = async (command: string): Promise<void> => {
+  switch (command) {
+    case 'all':
+      currentFavorite.value = undefined
+      await getDataByQuery()
+      break
+    case 'favorite':
+      currentFavorite.value = true
+      await getDataByQuery(currentFavorite.value)
+      break
+  }
 }
 
 onMounted(async () => {
@@ -279,7 +315,11 @@ const selectedCategoryId = ref('')
 const handleFilter = async (categoryId: string): Promise<void> => {
   selectedCategoryId.value = categoryId === 'all' ? '' : categoryId
   pwdStore.currentPage = 1
-  await getDataByQuery()
+  if (currentFavorite.value) {
+    await getDataByQuery(currentFavorite.value)
+  } else {
+    await getDataByQuery()
+  }
 }
 
 const togglePasswordVisibility = (item): void => {
@@ -288,12 +328,13 @@ const togglePasswordVisibility = (item): void => {
 const toggleFavorite = async (item): Promise<void> => {
   if (item) {
     await pwdStore.toggleFavorite(item.id)
-    ElMessage.success(`${item.title} ${item.isFavorite ? '取消收藏' : '已添加到收藏夹'}`)
+    ElMessage.success(`${item.title} ${item.isFavorite ? '取消收藏' : '收藏成功'}`)
   }
 }
 const debounceToggleFavorite = useDebounceFn(toggleFavorite, 200)
 
 const handleSearch = async (keyword: string): Promise<void> => {
+  if (!keyword) return
   pwdStore.currentPage = 1
   const [sortBy, sortOrder] = currentSort.value.split('-')
   await pwdStore.getPasswordList({
@@ -303,6 +344,8 @@ const handleSearch = async (keyword: string): Promise<void> => {
     sortOrder: (sortOrder as 'DESC' | 'ASC') || 'DESC'
   })
 }
+
+const debounceHandleSearch = useDebounceFn(handleSearch, 200)
 
 const copyUsername = (username: string): void => {
   navigator.clipboard

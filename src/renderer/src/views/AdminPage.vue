@@ -5,31 +5,8 @@
     </div>
     <el-divider content-position="left">集中管理用户、监控系统状态和审计安全日志</el-divider>
 
-    <div class="flex flex-col space-y-2">
-      <div>
-        <el-card shadow="hover">
-          <div class="flex items-center">
-            <el-icon><User /></el-icon>
-            <span class="ml-2">用户管理</span>
-          </div>
-        </el-card>
-      </div>
-      <div>
-        <el-card shadow="hover">
-          <div class="flex items-center">
-            <el-icon><Monitor /></el-icon>
-            <span class="ml-2">系统监控</span>
-          </div>
-        </el-card>
-      </div>
-      <div>
-        <el-card shadow="hover">
-          <div class="flex items-center">
-            <el-icon><Document /></el-icon>
-            <span class="ml-2">安全日志</span>
-          </div>
-        </el-card>
-      </div>
+    <div class="flex flex-col">
+      <RouterView />
     </div>
   </div>
 </template>

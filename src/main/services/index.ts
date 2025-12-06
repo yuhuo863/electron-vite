@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron/main'
 import { handleTokenOperations } from './auth'
 import { handleWindowOperation } from './window'
-import { handlePasswordOperation } from './password'
+import { handleSystemOperation } from './system'
 // 导入其他所有处理器
 
 /**
@@ -19,7 +19,7 @@ export const registerIcpHandlers = (mainWindow: BrowserWindow | null): void => {
 
   // 注册所有模块的 IPC 处理器
   handleTokenOperations()
-  handlePasswordOperation()
+  handleSystemOperation()
   handleWindowOperation(mainWindow)
 
   console.log('All IPC handlers registered.')

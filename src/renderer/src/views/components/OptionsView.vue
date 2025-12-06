@@ -4,16 +4,6 @@
     <div class="flex flex-col space-y-3">
       <el-card shadow="never" class="mt3">
         <div class="flex flex-col space-y-2">
-          <p>数据同步</p>
-          <p class="text-gray-400 text-sm">管理本地数据与云端备份的同步设置。</p>
-          <p class="flex justify-between items-center bg-gray-200/55 rounded">
-            <span class="text-gray-500">自动云同步</span>
-            <el-button type="primary" text icon="Refresh">立即同步</el-button>
-          </p>
-        </div>
-      </el-card>
-      <el-card shadow="never">
-        <div class="flex flex-col space-y-2">
           <p>数据导出/导入</p>
           <p class="text-gray-400 text-sm">对密码存储的导出和导入。</p>
           <div>

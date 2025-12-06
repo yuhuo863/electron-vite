@@ -57,3 +57,18 @@ interface IUserUpdatePassword {
   message: string
   data: null
 }
+
+interface IUserItem {
+  id: string
+  username: string
+  email: string
+  avatar: string | null
+  role: string
+  isActive: boolean
+  lastLogin: Date | null
+  lockedUntil: Date | null
+  passwordCount: number
+  masterPasswordHint: string | null
+  createdAt: Date
+  updatedAt: Date
+}

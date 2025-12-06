@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BreadcrumbItem />
+    <DynamicBreadcrumb />
     <div class="reset-password-container">
       <el-card class="reset-password-card" shadow="never">
         <div class="page-title">设置新密码</div>
@@ -69,7 +69,7 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import BreadcrumbItem from './BreadcrumbItem.vue'
+import DynamicBreadcrumb from './DynamicBreadcrumb.vue'
 import { useRouter } from 'vue-router'
 import userApi from '@renderer/api/user'
 import { AxiosError } from 'axios'

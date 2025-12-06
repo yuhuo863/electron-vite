@@ -20,10 +20,10 @@ export const handleTokenOperations = (): void => {
 
       fs.writeFileSync(TOKEN_FILE_PATH, encryptedTokenString)
 
-      return { success: true }
+      return true
     } catch (error) {
       console.error('Failed to save token:', error)
-      return { success: false, error }
+      return false
     }
   })
 

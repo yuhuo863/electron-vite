@@ -53,7 +53,7 @@ const routes: RouteRecordRaw[] = [
     name: 'home',
     component: LandingPage,
     meta: {
-      title: 'Home',
+      title: '首页',
       requiresAuth: true,
       isLoginPage: false
     },
@@ -77,12 +77,6 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '我的分类' }
       },
       {
-        path: 'collection',
-        name: 'collection',
-        component: () => import('@renderer/views/CollectionPage.vue'),
-        meta: { title: '我的收藏' }
-      },
-      {
         path: 'trash',
         name: 'trash',
         component: () => import('@renderer/views/TrashPage.vue'),
@@ -96,28 +90,9 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             path: '',
-            name: 'general',
+            name: 'settings-general',
             component: GeneralView,
             meta: { title: '基础设置' }
-          },
-          {
-            path: 'session',
-            name: 'session',
-            component: () => import('@renderer/views/SessionPage.vue'),
-            meta: { title: '会话列表' }
-          },
-          {
-            path: 'session/:id',
-            name: 'session-detail',
-            component: () => import('@renderer/views/components/SessionDetailView.vue'),
-            meta: {
-              title: '会话详情',
-              breadcrumb: [
-                { title: '应用设置', path: '/settings' },
-                { title: '会话列表', path: '/settings/session' },
-                { title: '会话详情', path: '' } // 最后一个可以留空 path，表示当前页
-              ]
-            }
           },
           {
             path: 'masterPasswd',
@@ -128,16 +103,42 @@ const routes: RouteRecordRaw[] = [
         ]
       },
       {
-        path: 'admin',
-        name: 'admin',
-        component: () => import('@renderer/views/AdminPage.vue'),
-        meta: { title: '管理员设置' }
-      },
-      {
         path: 'changelog',
         name: 'changelog',
         component: () => import('@renderer/views/ChangelogPage.vue'),
         meta: { title: '系统更新' }
+      },
+      {
+        path: 'admin',
+        name: 'admin',
+        component: () => import('@renderer/views/AdminPage.vue'),
+        meta: { title: '管理面板' },
+        children: [
+          {
+            path: '',
+            name: 'admin-overview',
+            component: () => import('@renderer/views/AdminView.vue'),
+            meta: { title: '概览' }
+          },
+          {
+            path: 'users',
+            name: 'admin-users',
+            component: () => import('@renderer/views/UsersPage.vue'),
+            meta: { title: '用户管理' }
+          },
+          {
+            path: 'monitor',
+            name: 'admin-monitor',
+            component: () => import('@renderer/views/MonitorPage.vue'),
+            meta: { title: '系统监控' }
+          },
+          {
+            path: 'logs',
+            name: 'admin-logs',
+            component: () => import('@renderer/views/LogsPage.vue'),
+            meta: { title: '安全日志' }
+          }
+        ]
       }
     ]
   },

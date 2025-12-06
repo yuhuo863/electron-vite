@@ -37,5 +37,9 @@ contextBridge.exposeInMainWorld('authAPI', {
   /**
    * 关闭窗口
    */
-  closeWindow: () => ipcRenderer.send('window:close')
+  closeWindow: () => ipcRenderer.send('window:close'),
+  /**
+   * 获取系统信息
+   */
+  getSystemInfo: () => ipcRenderer.invoke('system:getInfo')
 })

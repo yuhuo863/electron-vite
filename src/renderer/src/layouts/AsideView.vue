@@ -25,10 +25,6 @@
           <el-icon><Menu /></el-icon>
           <span>我的分类</span>
         </el-menu-item>
-        <el-menu-item index="/collection">
-          <el-icon><CollectionTag /></el-icon>
-          <span>我的收藏</span>
-        </el-menu-item>
         <el-menu-item index="/trash">
           <el-icon><Delete /></el-icon>
           <span>回收站</span>
