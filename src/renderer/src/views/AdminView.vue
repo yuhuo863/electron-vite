@@ -12,7 +12,11 @@ const handleToSystemMonitor = (): void => {
 }
 
 const handleToSecurityLogs = (): void => {
-  router.push('/admin/logs')
+  router.push('/admin/actionlogs')
+}
+
+const handleToSystemLogs = (): void => {
+  router.push('/admin/systemlogs')
 }
 </script>
 
@@ -37,8 +41,16 @@ const handleToSecurityLogs = (): void => {
     <div @click="handleToSecurityLogs">
       <el-card shadow="hover" class="cursor-pointer">
         <div class="flex items-center">
-          <el-icon><Document /></el-icon>
-          <span class="ml-2">安全日志</span>
+          <el-icon><Operation /></el-icon>
+          <span class="ml-2">用户操作日志</span>
+        </div>
+      </el-card>
+    </div>
+    <div @click="handleToSystemLogs">
+      <el-card shadow="hover" class="cursor-pointer">
+        <div class="flex items-center">
+          <el-icon><SetUp /></el-icon>
+          <span class="ml-2">系统运行日志</span>
         </div>
       </el-card>
     </div>

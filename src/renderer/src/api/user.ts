@@ -17,5 +17,9 @@ export default {
     servers.post('/users/email-captcha/verify', { newPassword, email, code }),
   /**更新账号密码 */
   updatePassword: (currentPassword: string, newPassword: string): Promise<IUserUpdatePassword> =>
-    servers.put('/users/password', { currentPassword, newPassword })
+    servers.put('/users/password', { currentPassword, newPassword }),
+  /**检查是否可以再次评分 */
+  checkCanRate: () => servers.get('/feedback/status'),
+  /**提交评分 */
+  submitRating: (rating: number, content: string) => servers.post('/feedback', { rating, content })
 }

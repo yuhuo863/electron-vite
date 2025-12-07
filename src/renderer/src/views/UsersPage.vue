@@ -112,7 +112,7 @@ const resetForm = (): void => {
         </el-table-column>
         <el-table-column prop="createdAt" label="Created At" width="180" align="center" />
         <el-table-column prop="updatedAt" label="Updated At" width="180" align="center" />
-        <el-table-column label="操作" width="200" align="center">
+        <el-table-column label="Operation" width="200" align="center">
           <template #default="{ row }">
             <el-button type="primary" text icon="EditPen" @click="openDialog(row)"
               >更新角色</el-button

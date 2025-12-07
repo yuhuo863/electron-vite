@@ -19,7 +19,7 @@
             class="hover:color-gray-500 cursor-pointer hover:bg-gray-100/80"
             @click="handleChangelogClick"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
                 d="M12 4.5a.5.5 0 0 0-.5-.5a.5.5 0 0 0-.5.5v1.53c-2.25.25-4 2.15-4 4.47v5.91L5.41 18h12.18L16 16.41V10.5c0-2.32-1.75-4.22-4-4.47zM11.5 3A1.5 1.5 0 0 1 13 4.5v.71c2.31.65 4 2.79 4 5.29V16l3 3H3l3-3v-5.5C6 8 7.69 5.86 10 5.21V4.5A1.5 1.5 0 0 1 11.5 3m0 19a2.5 2.5 0 0 1-2.45-2h1.04a1.495 1.495 0 0 0 2.82 0h1.04a2.5 2.5 0 0 1-2.45 2"
@@ -29,9 +29,14 @@
         </el-tooltip>
         <div>
           <el-dropdown trigger="click" class="cursor-pointer" @command="handleCommand">
-            <el-avatar :src="authStore.userInfo?.avatar" size="small" @error="errorHandler">
-              <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
-            </el-avatar>
+            <el-badge is-dot :offset="[-5, 25]" :color="idle ? '#CCCCCC' : '#52C41A'">
+              <!-- <template #content>
+                <div class="text-xs mt8 mr4 text-indigo-300">{{ idle ? '离开' : '在线' }}</div>
+              </template> -->
+              <el-avatar :src="authStore.userInfo?.avatar" :size="30" @error="errorHandler">
+                <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+              </el-avatar>
+            </el-badge>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile" icon="User">个人资料</el-dropdown-item>
@@ -45,19 +50,22 @@
         </div>
       </div>
       <el-divider direction="vertical" />
-      <Operation />
+      <Operations />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Operation from '@renderer/components/Operation.vue'
+import user from '@renderer/api/user'
+import Operations from '@renderer/components/Operations.vue'
 import { useAuthStore } from '@renderer/stores/auth'
+import { useIdle } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
-import { nextTick } from 'vue'
+import { nextTick, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const { idle } = useIdle(60000 * 5) // 空闲超时设置为 5 分钟
 
 // 解决 OSS 延迟同步导致图片地址首次访问的 404 问题
 const errorHandler = (event: Event): void => {
@@ -102,6 +110,9 @@ const handleCommand = async (command: string): Promise<void> => {
 const handleChangelogClick = (): void => {
   router.push('/changelog')
 }
+onMounted(async () => {
+  await user.checkCanRate()
+})
 </script>
 
 <style scoped>

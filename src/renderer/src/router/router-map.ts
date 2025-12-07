@@ -133,10 +133,16 @@ const routes: RouteRecordRaw[] = [
             meta: { title: '系统监控' }
           },
           {
-            path: 'logs',
-            name: 'admin-logs',
-            component: () => import('@renderer/views/LogsPage.vue'),
-            meta: { title: '安全日志' }
+            path: 'actionlogs',
+            name: 'action-logs',
+            component: () => import('@renderer/views/ActionLogsPage.vue'),
+            meta: { title: '操作日志' }
+          },
+          {
+            path: 'systemlogs',
+            name: 'system-logs',
+            component: () => import('@renderer/views/SystemLogsPage.vue'),
+            meta: { title: '系统日志' }
           }
         ]
       }

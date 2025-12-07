@@ -1,6 +1,6 @@
 <template>
   <div class="auth-page">
-    <Operation />
+    <Operations />
     <div class="flex flex-col items-center">
       <RouterView />
     </div>
@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import Operation from '@renderer/components/Operation.vue'
+import Operations from '@renderer/components/Operations.vue'
 </script>
 
 <style scoped>

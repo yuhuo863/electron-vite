@@ -127,7 +127,8 @@ const submitForm = async (formEl: FormInstance | undefined | null): Promise<void
   justify-content: center;
 }
 .el-alert {
-  margin: 0 0 20px 40px;
+  width: 80%;
+  margin: 0 0 20px 66.5px;
   background-color: rgba(255, 255, 255, 0.05);
   box-shadow: 1px 2px 2px 0 rgba(0, 0, 0, 0.05);
 }
