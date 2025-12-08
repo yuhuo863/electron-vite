@@ -5,7 +5,7 @@ import { useCategoryStore } from '@renderer/stores/category'
 import { usePwdStore } from '@renderer/stores/password'
 import { useDebounceFn } from '@vueuse/core'
 import { ElMessage, FormInstance, FormRules } from 'element-plus'
-import { computed, reactive, ref, useTemplateRef } from 'vue'
+import { computed, onMounted, reactive, ref, useTemplateRef } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -36,6 +36,11 @@ const getDataByQuery = async (isFavorite?: boolean): Promise<void> => {
     isFavorite
   })
 }
+
+onMounted(async () => {
+  await pwdStore.getPasswordList()
+  await categoryStore.fetchCategories()
+})
 
 const currentFavorite = ref<boolean>()
 const handleQuery = async (command: string): Promise<void> => {
