@@ -66,7 +66,10 @@
 
     <el-divider content-position="left">管理和查看您存储的所有密码</el-divider>
 
-    <div class="flex justify-between">
+    <div>
+      <RouterView />
+    </div>
+    <!-- <div class="flex justify-between">
       <div class="flex-1 mr-1">
         <el-input
           v-model="searchPassword"
@@ -145,7 +148,11 @@
           :md="8"
           :lg="6"
         >
-          <el-card class="mb-4" shadow="never">
+          <el-card
+            class="mb-4 cursor-pointer hover:bg-gray-100"
+            shadow="never"
+            @click="debounceViewDetail(item.id)"
+          >
             <template #header>
               <div class="flex items-center space-x-2">
                 <el-icon :size="28" color="skyblue">
@@ -160,7 +167,7 @@
               </div>
 
               <div class="flex">
-                <div @click="debounceToggleFavorite(item)">
+                <div @click.stop="debounceToggleFavorite(item)">
                   <el-button
                     v-if="item.isFavorite"
                     text
@@ -171,19 +178,24 @@
                   <el-button v-else text icon="Star" size="small"></el-button>
                 </div>
                 <div>
-                  <el-button text icon="Edit" size="small" @click="openDrawer(item)"></el-button>
+                  <el-button
+                    text
+                    icon="Edit"
+                    size="small"
+                    @click.stop="openDrawer(item)"
+                  ></el-button>
                 </div>
                 <div>
                   <el-button
                     text
                     icon="Delete"
                     size="small"
-                    @click="deletePassword(item.id)"
+                    @click.stop="deletePassword(item.id)"
                   ></el-button>
                 </div>
               </div>
             </template>
-            <!-- card body -->
+
             <div class="flex flex-col">
               <div>
                 <label class="text-gray-400 text-sm">用户名</label>
@@ -191,7 +203,7 @@
                   <p class="text-xs">{{ item.username }}</p>
                   <p
                     class="text-xs text-gray-400 cursor-pointer hover:text-gray-600"
-                    @click="copyUsername(item.username)"
+                    @click.stop="copyUsername(item.username)"
                   >
                     <el-icon>
                       <CopyDocument />
@@ -207,7 +219,7 @@
                   </p>
                   <p
                     class="text-xs text-gray-400 cursor-pointer hover:text-gray-600"
-                    @click="togglePasswordVisibility(item)"
+                    @click.stop="togglePasswordVisibility(item)"
                   >
                     <el-icon>
                       <component :is="item?.showPassword ? 'Hide' : 'View'" />
@@ -216,6 +228,14 @@
                 </div>
               </div>
             </div>
+
+            <template #footer>
+              <div class="flex justify-end">
+                <p class="text-xs text-gray-400">
+                  上次使用:{{ item.lastUsed ? item.lastUsed : 'Never' }}
+                </p>
+              </div>
+            </template>
           </el-card>
         </el-col>
       </el-row>
@@ -227,11 +247,12 @@
           @current-change="handleCurrentChange"
         />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import password from '@renderer/api/password'
 import Pagination from '@renderer/components/Pagination.vue'
 import { useCategoryStore } from '@renderer/stores/category'
 import { usePwdStore } from '@renderer/stores/password'
@@ -430,6 +451,17 @@ const deletePassword = async (id: string): Promise<void> => {
     console.error(error)
   }
 }
+
+const handleViewDetail = async (id: string): Promise<void> => {
+  try {
+    const detail = await password.getPasswordDetail(id)
+    console.log(detail)
+  } catch (error) {
+    ElMessage.error('获取详情失败')
+    console.error(error)
+  }
+}
+const debounceViewDetail = useDebounceFn(handleViewDetail, 300)
 </script>
 
 <style scoped>
@@ -438,7 +470,7 @@ const deletePassword = async (id: string): Promise<void> => {
   font-weight: normal;
   color: rgba(162, 167, 175, 0.8);
 }
-:deep(.el-card__header) {
+/*:deep(.el-card__header) {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -446,5 +478,5 @@ const deletePassword = async (id: string): Promise<void> => {
 }
 .is-active {
   color: gold;
-}
+}*/
 </style>

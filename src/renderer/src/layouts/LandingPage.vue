@@ -13,15 +13,58 @@
         </el-main>
       </el-container>
     </el-container>
+    <RatingModal :dialog-visible="isVisible" @update:dialog-visible="isVisible = $event" />
   </div>
 </template>
 
 <script setup lang="ts">
+import user from '@renderer/api/user'
 import AsideView from '@renderer/layouts/AsideView.vue'
 import HeaderView from '@renderer/layouts/HeaderView.vue'
 import { useAppStore } from '@renderer/stores/app'
+import { useTimeoutFn } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
+import RatingModal from '@renderer/components/RatingModal.vue'
+import { useFeedbackStatus } from '@renderer/hooks/useFeedbackStatus'
+import { useAuthStore } from '@renderer/stores/auth'
 
 const appStore = useAppStore()
+const authStore = useAuthStore()
+
+const FRONTEND_COOLDOWN_DAYS = 7 // 前端缓存冷却期 (天)
+
+const isVisible = ref(false)
+
+const { isLocalStorageExpired, updateLocalStorage } = useFeedbackStatus(
+  authStore.userInfo?.id as string
+)
+const checkStatusAndSetCache = async (): Promise<void> => {
+  try {
+    const response = await user.checkCanRate()
+    const shouldShow = response.data.should_show
+
+    // 新用户免打扰期(7天) 或 周期性评分期(180天) 已过
+    if (shouldShow) {
+      isVisible.value = true
+    } else {
+      // 反之前端7天内不在请求该接口
+      updateLocalStorage(FRONTEND_COOLDOWN_DAYS)
+    }
+  } catch (error) {
+    console.error('Failed to fetch feedback status:', error)
+    // 接口失败：设置 1 天缓存，避免频繁重试
+    updateLocalStorage(1)
+  }
+}
+onMounted(() => {
+  if (!isLocalStorageExpired()) {
+    // console.log("Hit LocalStorage cache, skipping API call.");
+    return
+  }
+  const { isPending } = useTimeoutFn(async () => {
+    await checkStatusAndSetCache()
+  }, 3000)
+})
 </script>
 
 <style scoped>

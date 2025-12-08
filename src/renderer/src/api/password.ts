@@ -3,6 +3,8 @@ import server from '@renderer/utils/request'
 export default {
   /**获取密码列表 */
   getPasswordList: (params = {}) => server.get('/passwords', { params }),
+  /**获取密码详情 */
+  getPasswordDetail: (id: string) => server.get(`/passwords/${id}/detail`),
   /**收藏/取消收藏密码 */
   toggleFavorite: (id: string) => server.post('/likes', { passwordId: id }),
   /**获取当前用户收藏的密码 */
@@ -24,5 +26,7 @@ export default {
   /**批量彻底删除 */
   forceDeletePasswords: (ids: string[]) => server.post('/passwords/permanently', { ids }),
   /**彻底删除当前用户的所有密码(包括未删除和回收站中的) */
-  emptyTrash: () => server.delete('/passwords/permanently-all')
+  emptyTrash: () => server.delete('/passwords/permanently-all'),
+  /**获取用户所有密码强度均值 */
+  getUserPasswordStrengthAverage: () => server.get('/passwords/strength-average')
 }

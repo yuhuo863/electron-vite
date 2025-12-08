@@ -68,7 +68,22 @@ const routes: RouteRecordRaw[] = [
         path: 'password',
         name: 'password',
         component: () => import('@renderer/views/PasswordPage.vue'),
-        meta: { title: '所有密码' }
+        meta: { title: '所有密码' },
+        children: [
+          {
+            path: '',
+            name: 'password-list',
+            component: () => import('@renderer/views/PasswordView.vue'),
+            meta: { title: '密码列表' }
+          },
+
+          {
+            path: ':id',
+            name: 'password-detail',
+            component: () => import('@renderer/views/PasswordDetailPage.vue'),
+            meta: { title: '密码详情' }
+          }
+        ]
       },
       {
         path: 'category',

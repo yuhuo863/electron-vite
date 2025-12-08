@@ -429,7 +429,7 @@ const config4 = ref<VueUiMoodRadarConfig>({
           colors: { '1': '#e20001', '2': '#ff9f03', '3': '#ffd004', '4': '#9ac900', '5': '#059f00' }
         },
         dataLabel: {
-          color: '#CCCCCC',
+          color: '#000000',
           roundingPercentage: 0,
           roundingValue: 0,
           bold: true,
@@ -438,7 +438,7 @@ const config4 = ref<VueUiMoodRadarConfig>({
         }
       },
       title: {
-        text: '用户系统评级',
+        text: '用户系统评分',
         color: '#000000',
         fontSize: 20,
         bold: true,
@@ -448,7 +448,7 @@ const config4 = ref<VueUiMoodRadarConfig>({
         subtitle: { color: '#A1A1A1', text: '', fontSize: 16, bold: false }
       },
       legend: {
-        color: '#CCCCCC',
+        color: '#000000',
         backgroundColor: 'rgba(255, 255, 255, 0)',
         bold: false,
         show: true,
@@ -611,12 +611,14 @@ onMounted(async () => {
           <VueDataUi component="VueUiQuickChart" :dataset="dataset3" :config="config3" />
         </div>
       </div>
-      <div class="flex space-x-5">
-        <div style="width: 375px" class="pt5 bg-indigo-100/80 rounded shadow-md">
-          <VueDataUi component="VueUiMoodRadar" :dataset="dataset4" :config="config4" />
-        </div>
-        <div style="width: 375px; height: 300px" class="pt5 bg-indigo-100/80 rounded shadow-md">
-          <VueDataUi component="VueUiGauge" :dataset="dataset5" :config="config5" />
+      <div>
+        <div class="flex space-x-5">
+          <div style="width: 375px" class="pt5 bg-indigo-100/80 rounded shadow-md">
+            <VueDataUi component="VueUiMoodRadar" :dataset="dataset4" :config="config4" />
+          </div>
+          <div style="width: 375px" class="pt5 bg-indigo-100/80 rounded shadow-md">
+            <VueDataUi component="VueUiGauge" :dataset="dataset5" :config="config5" />
+          </div>
         </div>
       </div>
     </div>

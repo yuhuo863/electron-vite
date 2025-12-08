@@ -5,7 +5,9 @@
         <h2 class="font-bold">应用设置</h2>
       </div>
 
-      <div><el-button type="primary" plain> =-= </el-button></div>
+      <div>
+        <!-- <el-button type="primary" plain> =-= </el-button> -->
+      </div>
     </div>
     <el-divider content-position="left"> 查看您对应用的个性化设置 </el-divider>
 

@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
-
-<head>
-  <meta charset="UTF-8" />
-  <title>Electron</title>
-  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy"
+  <head>
+    <meta charset="UTF-8" />
+    <title>Electron</title>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
       content="default-src 'self';
-               script-src 'self' https://trusted.cdn.com;
+               script-src 'self' ;
                style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                img-src 'self' data: blob: https://*.elemecdn.com https://xnbjb-oss.oss-cn-wuhan-lr.aliyuncs.com;
                connect-src 'self' https://api.example.com http://localhost:3000;
@@ -15,13 +15,12 @@
                media-src 'self';
                object-src 'none';
                frame-src 'self';
-               upgrade-insecure-requests;">
+               upgrade-insecure-requests;"
+    />
+  </head>
 
-</head>
-
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

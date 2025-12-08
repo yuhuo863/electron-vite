@@ -22,6 +22,7 @@ interface PasswordItem {
   isFavorite: boolean
   showPassword: boolean
   category: Category
+  lastUsed: string
 }
 
 interface PasswordForm {

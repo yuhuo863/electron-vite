@@ -56,12 +56,11 @@
 </template>
 
 <script setup lang="ts">
-import user from '@renderer/api/user'
 import Operations from '@renderer/components/Operations.vue'
 import { useAuthStore } from '@renderer/stores/auth'
 import { useIdle } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
-import { nextTick, onMounted } from 'vue'
+import { nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -110,9 +109,6 @@ const handleCommand = async (command: string): Promise<void> => {
 const handleChangelogClick = (): void => {
   router.push('/changelog')
 }
-onMounted(async () => {
-  await user.checkCanRate()
-})
 </script>
 
 <style scoped>

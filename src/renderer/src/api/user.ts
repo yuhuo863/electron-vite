@@ -21,5 +21,11 @@ export default {
   /**检查是否可以再次评分 */
   checkCanRate: () => servers.get('/feedback/status'),
   /**提交评分 */
-  submitRating: (rating: number, content: string) => servers.post('/feedback', { rating, content })
+  submitRating: (
+    score: number,
+    content?: string
+  ): Promise<{ status: boolean; message: string; data?: null }> =>
+    servers.post('/feedback', { score, content }),
+  /**获取当前用户的密码操作日志 */
+  getPasswordLogs: () => servers.get('/users/password-logs')
 }

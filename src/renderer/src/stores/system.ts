@@ -15,7 +15,6 @@ export const useSystemStore = defineStore('system', () => {
     try {
       const response = await admin.getSystemStats()
       systemStats.value = response.data.data
-      total.value = response.data.pagination.total
     } catch (error) {
       console.error('Failed to fetch system stats:', error)
     }
@@ -30,7 +29,6 @@ export const useSystemStore = defineStore('system', () => {
       })
       userActionLogs.value = response.data.logs
       total.value = response.data.pagination.total
-      console.log('userActionLogs.value=>', userActionLogs.value)
     } catch (error) {
       console.error('Failed to fetch user action logs:', error)
     }
@@ -45,7 +43,6 @@ export const useSystemStore = defineStore('system', () => {
       })
       apiRuntimeLogs.value = response.data.logs
       total.value = response.data.pagination.total
-      console.log('apiRuntimeLogs.value=>', apiRuntimeLogs.value)
     } catch (error) {
       console.error('Failed to fetch API runtime logs:', error)
     }
