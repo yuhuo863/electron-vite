@@ -61,9 +61,7 @@ onMounted(() => {
     // console.log("Hit LocalStorage cache, skipping API call.");
     return
   }
-  const { isPending } = useTimeoutFn(async () => {
-    await checkStatusAndSetCache()
-  }, 3000)
+  useTimeoutFn(async () => await checkStatusAndSetCache(), 3000)
 })
 </script>
 
@@ -74,7 +72,6 @@ onMounted(() => {
 }
 /* 主内容区域滚动容器基础样式 */
 .main-content {
-  overflow-y: auto; /* 确保内容溢出时显示滚动条 */
   scrollbar-width: thin; /* 滚动条宽度：auto/thin/none */
   scrollbar-color: #cbd5e1 #f1f5f9; /* 滑块颜色 轨道颜色 */
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import password from '@renderer/api/password'
 import Pagination from '@renderer/components/Pagination.vue'
 import { useCategoryStore } from '@renderer/stores/category'
 import { usePwdStore } from '@renderer/stores/password'
+import { formatActionTime } from '@renderer/utils/time'
 import { useDebounceFn } from '@vueuse/core'
 import { ElMessage, FormInstance, FormRules } from 'element-plus'
 import { computed, onMounted, reactive, ref, useTemplateRef } from 'vue'
@@ -201,16 +201,9 @@ const handleSubmit = (formEl: FormInstance | null): void => {
   })
 }
 
-const handleViewDetail = async (id: string): Promise<void> => {
-  try {
-    await password.getPasswordDetail(id)
-    router.push({ path: `/password/${id}` })
-  } catch (error) {
-    ElMessage.error('获取详情失败')
-    console.error(error)
-  }
+const handleViewDetail = (id: string): void => {
+  router.push({ path: `/password/${id}` })
 }
-const debounceViewDetail = useDebounceFn(handleViewDetail, 300)
 </script>
 
 <template>
@@ -297,7 +290,7 @@ const debounceViewDetail = useDebounceFn(handleViewDetail, 300)
           <el-card
             class="my-4 cursor-pointer hover:bg-gray-100"
             shadow="never"
-            @click="debounceViewDetail(item.id)"
+            @click="handleViewDetail(item.id)"
           >
             <template #header>
               <div class="flex items-center space-x-2">
@@ -378,7 +371,7 @@ const debounceViewDetail = useDebounceFn(handleViewDetail, 300)
             <template #footer>
               <div class="flex justify-end">
                 <p class="text-xs text-gray-400">
-                  上次使用:{{ item.lastUsed ? item.lastUsed : 'Never' }}
+                  上次使用:{{ item.lastUsed ? formatActionTime(item.lastUsed) : 'Never' }}
                 </p>
               </div>
             </template>

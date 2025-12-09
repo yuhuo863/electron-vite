@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import category from '@renderer/api/category'
 import { ref } from 'vue'
+import { AxiosError } from 'axios'
+import { ElMessage } from 'element-plus'
 
 export const useCategoryStore = defineStore('category', () => {
   const categoryList = ref<CategoryItem[]>([])
@@ -9,8 +11,12 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       const res = await category.getCategoryList()
       categoryList.value = res.data.categories
-    } catch (error) {
-      console.error(error)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error('Error fetching categories:', error)
+        ElMessage.error(error.response?.data?.message || 'Failed to fetch categories')
+        throw error
+      }
     }
   }
 
@@ -18,8 +24,12 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       await category.createCategory(payload)
       await fetchCategories()
-    } catch (error) {
-      console.error(error)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error('Error creating category:', error)
+        ElMessage.error(error.response?.data?.message || 'Failed to create category')
+        throw error
+      }
     }
   }
 
@@ -27,8 +37,12 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       await category.updateCategory(id, payload)
       await fetchCategories()
-    } catch (error) {
-      console.error(error)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error('Error updating category:', error)
+        ElMessage.error(error.response?.data?.message || 'Failed to update category')
+        throw error
+      }
     }
   }
 
@@ -36,8 +50,12 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       await category.deleteCategory(id)
       await fetchCategories()
-    } catch (error) {
-      console.error(error)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error('Error deleting category:', error)
+        ElMessage.error(error.response?.data?.message || 'Failed to delete category')
+        throw error
+      }
     }
   }
 
@@ -45,8 +63,12 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       await category.setDefaultCategory(id)
       await fetchCategories()
-    } catch (error) {
-      console.error(error)
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error('Error setting default category:', error)
+        ElMessage.error(error.response?.data?.message || 'Failed to set default category')
+        throw error
+      }
     }
   }
 

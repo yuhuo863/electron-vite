@@ -5,7 +5,9 @@
         <h2 class="font-bold">所有密码</h2>
       </div>
 
-      <div><el-button type="primary" plain @click="openDrawer(false)"> 新建密码</el-button></div>
+      <div v-if="showNewPassword">
+        <el-button type="primary" plain @click="openDrawer(false)"> 新建密码</el-button>
+      </div>
       <el-drawer
         v-model="drawerVisible"
         :title="isEditMode ? '编辑密码' : '新建密码'"
@@ -76,7 +78,8 @@
 import { useCategoryStore } from '@renderer/stores/category'
 import { usePwdStore } from '@renderer/stores/password'
 import { ElMessage, FormInstance, FormRules } from 'element-plus'
-import { ref, useTemplateRef, reactive } from 'vue'
+import { ref, useTemplateRef, reactive, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 const pwdStore = usePwdStore()
 const categoryStore = useCategoryStore()
@@ -131,7 +134,10 @@ const handleSubmit = (formEl: FormInstance | null): void => {
           })
           ElMessage.success('更新成功')
         } else {
-          await pwdStore.createPassword(drawerForm.value)
+          await pwdStore.createPassword({
+            ...drawerForm.value,
+            categoryId: currentCategoryId.value
+          })
           ElMessage.success('创建成功')
         }
       } catch (error) {
@@ -143,6 +149,9 @@ const handleSubmit = (formEl: FormInstance | null): void => {
     }
   })
 }
+
+const route = useRoute()
+const showNewPassword = computed(() => route.name === 'password-list')
 </script>
 
 <style scoped>

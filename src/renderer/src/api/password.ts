@@ -5,6 +5,8 @@ export default {
   getPasswordList: (params = {}) => server.get('/passwords', { params }),
   /**获取密码详情 */
   getPasswordDetail: (id: string) => server.get(`/passwords/${id}/detail`),
+  /**获取密码更新历史记录 */
+  getPasswordHistory: (id: string) => server.get(`/passwords/${id}/history`),
   /**收藏/取消收藏密码 */
   toggleFavorite: (id: string) => server.post('/likes', { passwordId: id }),
   /**获取当前用户收藏的密码 */

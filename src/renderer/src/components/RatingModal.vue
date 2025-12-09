@@ -103,6 +103,7 @@ const handleClose = (): void => {
     :modal="false"
     modal-penetrable
     top="20vh"
+    transition="dialog-bounce"
     @close="handleClose"
   >
     <div class="">

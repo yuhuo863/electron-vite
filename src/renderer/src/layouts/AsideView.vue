@@ -10,7 +10,7 @@
         @close="handleClose"
         @select="handleSelect"
       >
-        <div class="ml-5">
+        <div :class="isCollapse ? 'text-center' : 'ml5'">
           <span class="menu-group-title"> 主导航 </span>
         </div>
         <el-menu-item index="/">

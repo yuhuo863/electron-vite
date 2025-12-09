@@ -120,7 +120,7 @@
 
 <script setup lang="ts">
 import { useCategoryStore } from '@renderer/stores/category'
-import { ElMessage, ElMessageBox, FormInstance, FormRules } from 'element-plus'
+import { ElMessage, ElMessageBox, FormInstance, FormRules, MessageBoxData } from 'element-plus'
 import { onMounted, reactive, ref, useTemplateRef } from 'vue'
 import { COMMON_CATEGORY_ICONS } from '@renderer/constants/commonIcons'
 
@@ -208,24 +208,26 @@ const handleSubmit = (formEl: FormInstance | null): void => {
   })
 }
 
-const handleDelete = (id: string): void => {
-  ElMessageBox.confirm('确定删除该分类吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-    .then(async () => {
+const handleDelete = async (id: string): Promise<void> => {
+  try {
+    const action: MessageBoxData = await ElMessageBox.confirm(
+      '该操作会移除当前分类下的所有密码, 确定删除吗？',
+      '提示',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+    )
+    if (action === 'confirm') {
       await categoryStore.deleteCategory(id)
       ElMessage.success('删除成功')
-    })
-    .catch((error) => {
-      if (error === 'cancel') {
-        ElMessage('已取消删除')
-      } else {
-        ElMessage.error('删除失败')
-        console.error(error)
-      }
-    })
+    }
+  } catch (error) {
+    if (error === 'cancel') {
+      ElMessage('已取消删除')
+    }
+  }
 }
 
 const setDefault = (id: string): void => {

@@ -1,4 +1,5 @@
 import servers from '@renderer/utils/request'
+import { AxiosRequestConfig } from 'axios'
 
 export default {
   /**获取个人信息 */
@@ -27,5 +28,13 @@ export default {
   ): Promise<{ status: boolean; message: string; data?: null }> =>
     servers.post('/feedback', { score, content }),
   /**获取当前用户的密码操作日志 */
-  getPasswordLogs: () => servers.get('/users/password-logs')
+  getPasswordLogs: () => servers.get('/users/password-logs'),
+  /**数据导出 */
+  exportData: (params = {}) => servers.get('/tools/export', { params }),
+  /**数据导入 */
+  importData: (
+    data,
+    config: AxiosRequestConfig
+  ): Promise<{ status: boolean; message: string; data?: null }> =>
+    servers.post('/tools/import', data, config)
 }

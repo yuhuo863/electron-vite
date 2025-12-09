@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 export const useSystemStore = defineStore('system', () => {
   const systemStats = ref<SystemStatus>()
-  const userActionLogs = ref()
+  const userActionLogs = ref([])
   const apiRuntimeLogs = ref()
 
   const currentPage = ref(1)

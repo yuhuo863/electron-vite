@@ -5,7 +5,7 @@ import 'dayjs/locale/zh-cn'
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
-export const formatActionTime = (time = undefined): string => {
+export const formatActionTime = (time: string): string => {
   const now = dayjs()
   const target = dayjs(time)
   const diffDays = now.diff(time, 'day')

@@ -58,3 +58,22 @@ interface TrashPassword {
   lastUsed: Date | null
   deletedAt: Date | null
 }
+
+interface PasswordDetail {
+  url: string
+  title: string
+  notes: string
+  username: string
+  password: string
+  passwordStrength: number
+  isFavorite: boolean
+  category: Category
+  lastUsed: string
+  createdAt: string
+  updatedAt: string
+}
+
+interface PasswordHistory {
+  decryptedPassword: string
+  changedAt: string
+}
