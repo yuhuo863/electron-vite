@@ -62,7 +62,7 @@ const resetForm = (): void => {
         :data="userStore.userList"
         height="400"
         max-height="400"
-        :header-cell-style="{ backgroundColor: '#f2f2f2', color: '#333333' }"
+        :header-cell-style="{ color: '#666666' }"
       >
         <el-table-column fixed prop="username" label="Username" width="180" align="center" />
         <el-table-column prop="email" label="Email" width="150" align="center" />

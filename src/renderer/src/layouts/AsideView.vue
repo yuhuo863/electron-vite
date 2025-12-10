@@ -1,7 +1,11 @@
 <template>
-  <div class="aside-container no-drag" :style="{ width: appStore.asideWidth }">
+  <div
+    class="aside-container no-drag bg-indigo-50/50 dark:bg-black"
+    :style="{ width: appStore.asideWidth }"
+  >
     <el-scrollbar class="aside-scrollbar">
       <el-menu
+        class="bg-indigo-50/40 dark:bg-black"
         :collapse="isCollapse"
         :default-active="defaultActive"
         :collapse-transition="false"
@@ -64,10 +68,29 @@ const handleClose = (): void => {}
 const handleSelect = (path: string): void => {
   router.push(path)
 }
-const defaultActive = ref(route.path)
 
+const calculateDefaultActive = (currentRoute: typeof route): string => {
+  // 1. 获取所有匹配的路由记录
+  const matchedRoutes = currentRoute.matched
+
+  // 从后往前查找，或者直接取匹配链中第一个非根的路径（通常是索引 1 或 0）
+  // 考虑到您的菜单项都是一级路由 (/, /password, /category...)，我们寻找第一个非 '/' 的匹配路径
+  const activeMatch = matchedRoutes.find((r) => r.path !== '/' && r.path !== '')
+
+  if (activeMatch) {
+    // 使用这个匹配到的路径作为默认激活项
+    return activeMatch.path
+  }
+
+  // 如果没有找到非根路径的匹配，则回退到当前路径（例如访问根 / 时）
+  return currentRoute.path
+}
+// 1. 初始化 defaultActive
+const defaultActive = ref(calculateDefaultActive(route))
+
+// 2. 监听路由变化，更新 defaultActive
 onBeforeRouteUpdate((to) => {
-  defaultActive.value = to.path
+  defaultActive.value = calculateDefaultActive(to)
 })
 </script>
 
@@ -75,8 +98,6 @@ onBeforeRouteUpdate((to) => {
 .aside-container {
   height: 100%; /* 触达视口底部 */
   overflow: hidden; /* 隐藏外层滚动，仅内层菜单滚动 */
-  background-color: snow; /* 与菜单背景一致 */
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* 轻微阴影增强层次感 */
 }
 /* 滚动容器：高度自适应外层，仅内容溢出时滚动 */
 .aside-scrollbar {
@@ -94,8 +115,8 @@ onBeforeRouteUpdate((to) => {
   border-right: none; /* 去掉右侧边框，避免与主内容区分割感 */
   --el-menu-active-color: #3b82f6; /* 激活态蓝色，与你的主题一致 */
   --el-menu-text-color: #666; /* 菜单文字白色 */
-  --el-menu-hover-text-color: #3b82f6; /* hover蓝色 */
 }
+
 /* 优化折叠状态下的菜单间距 */
 :deep(.el-menu-item) {
   margin: 4px 0;

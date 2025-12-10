@@ -30,6 +30,16 @@
   --color-text: var(--ev-c-text-1);
 }
 
+:root {
+  --scrollbar-thumb: #999;
+  --scrollbar-track: #f5f5f5;
+}
+
+:root.dark {
+  --scrollbar-thumb: #666;
+  --scrollbar-track: #2a2a2a;
+}
+
 *,
 *::before,
 *::after {

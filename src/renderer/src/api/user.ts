@@ -36,5 +36,11 @@ export default {
     data,
     config: AxiosRequestConfig
   ): Promise<{ status: boolean; message: string; data?: null }> =>
-    servers.post('/tools/import', data, config)
+    servers.post('/tools/import', data, config),
+  /**验证输入的锁屏密码 */
+  verifyLockScreenPassword: (
+    password: string
+  ): Promise<{ status: boolean; message: string; data?: null }> => {
+    return servers.post('/users/screen-lock-password', { password })
+  }
 }

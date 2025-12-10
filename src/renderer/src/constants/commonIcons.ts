@@ -36,7 +36,7 @@ export const COMMON_CATEGORY_ICONS: string[] = [
   'Message', // 邮件/信息
 
   // ------------------------------------------------------------------
-  // D. 场景 / 生活 / 休闲 (Life / Leisure)
+  // D. 场景 / 生活 / 休闲 (Life / Leisure) / 学习
   // ------------------------------------------------------------------
   'HomeFilled', // 家庭/个人主页
   'OfficeBuilding', // 工作/公司/专业
@@ -46,6 +46,8 @@ export const COMMON_CATEGORY_ICONS: string[] = [
   'Suitcase', // 旅行/出差
   'Ship', // 【修正】交通/运输 (替代 Airplane)
   'ForkSpoon', // 餐饮/美食
+  'Reading', // 学习/阅读
+  'Notebook', // 笔记本/学习工具
 
   // ------------------------------------------------------------------
   // E. 媒体 / 娱乐 (Media / Entertainment)

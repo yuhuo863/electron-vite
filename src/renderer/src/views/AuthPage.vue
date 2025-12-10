@@ -18,6 +18,5 @@ import Operations from '@renderer/components/Operations.vue'
   font-family: 'Maple Mono';
   background-image: url('../assets/wavy-lines.svg');
   background-size: cover;
-  background-color: mistyrose;
 }
 </style>

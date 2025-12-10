@@ -90,7 +90,7 @@
 <script setup lang="ts">
 import user from '@renderer/api/user'
 import { useCategoryStore } from '@renderer/stores/category'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import {
   VueDataUi,
   VueUiDonutConfig,
@@ -102,6 +102,7 @@ import 'vue-data-ui/style.css'
 import { useRouter } from 'vue-router'
 import { formatActionTime } from '@renderer/utils/time'
 import password from '@renderer/api/password'
+import { useDark } from '@vueuse/core'
 
 const dataset1 = ref<VueUiSparkgaugeDataset>({
   value: 1,
@@ -114,7 +115,6 @@ const config1 = ref<VueUiSparkgaugeConfig>({
   loading: false,
   style: {
     fontFamily: 'inherit',
-    background: '#1A1A1A00',
     height: 84,
     basePosition: 72,
     animation: { show: true, speedMs: 150 },
@@ -123,13 +123,11 @@ const config1 = ref<VueUiSparkgaugeConfig>({
       fontSize: 12,
       position: 'bottom',
       textAlign: 'center',
-      bold: false,
-      color: '#8A8A8A'
+      bold: false
     },
     dataLabel: {
       fontSize: 36,
       autoColor: true,
-      color: '#CCCCCC',
       offsetY: -2,
       bold: true,
       rounding: 0,
@@ -142,20 +140,7 @@ const config1 = ref<VueUiSparkgaugeConfig>({
   }
 })
 
-const dataset2 = ref<VueUiDonutDatasetItem[]>([
-  {
-    name: 'Serie 1',
-    values: [100]
-  },
-  {
-    name: 'Serie 2',
-    values: [200]
-  },
-  {
-    name: 'Serie 3',
-    values: [300, 1]
-  }
-])
+const dataset2 = ref<VueUiDonutDatasetItem[]>([])
 
 const config2 = ref<VueUiDonutConfig>({
   debug: false,
@@ -174,8 +159,6 @@ const config2 = ref<VueUiDonutConfig>({
     chart: {
       useGradient: true,
       gradientIntensity: 40,
-      backgroundColor: 'transparent',
-      color: '#CCCCCC',
       width: 512,
       height: 360,
       padding: { top: 0, right: 0, bottom: 0, left: 0 },
@@ -190,8 +173,8 @@ const config2 = ref<VueUiDonutConfig>({
             suffix: ''
           },
           value: { rounding: 0, show: true },
-          percentage: { color: '#CCCCCC', bold: true, fontSize: 18, rounding: 0, minFontSize: 6 },
-          name: { color: '#CCCCCC', bold: false, fontSize: 14, minFontSize: 6 },
+          percentage: { bold: true, fontSize: 18, rounding: 0, minFontSize: 6 },
+          name: { bold: false, fontSize: 14, minFontSize: 6 },
           hollow: {
             show: true,
             total: {
@@ -245,7 +228,6 @@ const config2 = ref<VueUiDonutConfig>({
       comments: { show: true, showInTooltip: true, width: 100, offsetX: 0, offsetY: 0 },
       legend: {
         backgroundColor: 'transparent',
-        color: '#CCCCCC',
         show: true,
         fontSize: 16,
         bold: false,
@@ -257,7 +239,6 @@ const config2 = ref<VueUiDonutConfig>({
       },
       title: {
         text: '按分类存储',
-        color: '#000000',
         fontSize: 20,
         bold: true,
         textAlign: 'center',
@@ -267,7 +248,6 @@ const config2 = ref<VueUiDonutConfig>({
       },
       tooltip: {
         show: true,
-        color: '#CCCCCC',
         backgroundColor: '#1A1A1A',
         fontSize: 14,
         showValue: true,
@@ -331,6 +311,21 @@ const config2 = ref<VueUiDonutConfig>({
     }
   }
 })
+
+const isDark = useDark()
+watch(
+  isDark,
+  (newValue) => {
+    if (newValue) {
+      config1.value.theme = 'celebrationNight'
+      config2.value.theme = 'celebrationNight'
+    } else {
+      config1.value.theme = 'concrete'
+      config2.value.theme = 'concrete'
+    }
+  },
+  { immediate: true }
+)
 
 const categoryStore = useCategoryStore()
 

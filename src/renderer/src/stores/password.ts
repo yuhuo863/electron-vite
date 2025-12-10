@@ -7,7 +7,7 @@ export const usePwdStore = defineStore('password', () => {
 
   const total = ref(0)
   const currentPage = shallowRef(1)
-  const pageSize = shallowRef(1)
+  const pageSize = shallowRef(6)
 
   const setPasswordList = (newList: []): void => {
     passwordList.value = newList

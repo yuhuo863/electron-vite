@@ -1,5 +1,7 @@
 <template>
-  <div class="flex justify-between items-center h-[69px] header-group">
+  <div
+    class="flex justify-between items-center h-[69px] header-group bg-indigo-50/80 dark:bg-black"
+  >
     <div class="flex items-center ml5 space-x-6">
       <div class="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 640 640">
@@ -111,8 +113,4 @@ const handleChangelogClick = (): void => {
 }
 </script>
 
-<style scoped>
-.header-group {
-  background-color: snow; /* 与菜单背景一致 */
-}
-</style>
+<style scoped></style>

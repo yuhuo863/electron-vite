@@ -11,7 +11,7 @@
               icon="Edit"
               text
               size="small"
-              @click="router.push('/settings/masterPasswd')"
+              @click="router.push('/settings/master-password')"
               >修改</el-button
             >
           </div>
@@ -19,20 +19,6 @@
             <p class="text-gray-400 text-xs">
               您的主密码是加密您所有数据的唯一密钥。请确保其强度足够高
             </p>
-          </div>
-          <div class="flex justify-start items-center">
-            <span>主密码强度评分：</span>
-            <el-rate
-              v-model="rateValue"
-              :max="5"
-              size="small"
-              disabled
-              :colors="['red', '#ff9900', 'green']"
-              show-text
-              text-color="#ff9900"
-              :texts="['极弱', '弱', '一般', '强', '极强']"
-              class="ml2"
-            />
           </div>
         </div>
       </el-card>
@@ -82,7 +68,6 @@ import { useAuthStore } from '@renderer/stores/auth'
 const router = useRouter()
 const authStore = useAuthStore()
 
-const rateValue = ref(3.7)
 const systemInfo = ref<SystemInfo>()
 
 const getSystemInfo = async (): Promise<void> => {

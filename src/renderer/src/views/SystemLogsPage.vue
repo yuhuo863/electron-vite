@@ -18,7 +18,7 @@ const handleCurrentChange = async (page: number): Promise<void> => {
   <div>
     <DynamicBreadcrumb />
     <div class="pt5">
-      <el-table :data="systemStore.apiRuntimeLogs" max-height="400" stripe>
+      <el-table :data="systemStore.apiRuntimeLogs" max-height="400">
         <el-table-column type="expand">
           <template #default="{ row }">
             <el-descriptions title="" direction="vertical" :column="2" border>
@@ -46,8 +46,4 @@ const handleCurrentChange = async (page: number): Promise<void> => {
   </div>
 </template>
 
-<style lang="css" scoped>
-:deep(.el-table tr) {
-  background-color: aliceblue;
-}
-</style>
+<style lang="css" scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-screen overflow-hidden bg-indigo-50">
+  <div class="flex flex-col h-screen overflow-hidden">
     <el-container class="flex flex-col h-full">
       <el-header class="z-300">
         <HeaderView />
@@ -48,16 +48,16 @@ const checkStatusAndSetCache = async (): Promise<void> => {
       isVisible.value = true
     } else {
       // 反之前端7天内不在请求该接口
-      updateLocalStorage(FRONTEND_COOLDOWN_DAYS)
+      await updateLocalStorage(FRONTEND_COOLDOWN_DAYS)
     }
   } catch (error) {
     console.error('Failed to fetch feedback status:', error)
     // 接口失败：设置 1 天缓存，避免频繁重试
-    updateLocalStorage(1)
+    await updateLocalStorage(1)
   }
 }
-onMounted(() => {
-  if (!isLocalStorageExpired()) {
+onMounted(async () => {
+  if (!(await isLocalStorageExpired())) {
     // console.log("Hit LocalStorage cache, skipping API call.");
     return
   }
@@ -72,35 +72,29 @@ onMounted(() => {
 }
 /* 主内容区域滚动容器基础样式 */
 .main-content {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-gutter: stable both-edges;
   scrollbar-width: thin; /* 滚动条宽度：auto/thin/none */
-  scrollbar-color: #cbd5e1 #f1f5f9; /* 滑块颜色 轨道颜色 */
-}
-/* WebKit 内核浏览器滚动条样式（Chrome/Edge/Safari） */
-::-webkit-scrollbar {
-  width: 18px; /* 垂直滚动条宽度 */
-  height: 6px; /* 水平滚动条高度 */
+  overflow: auto;
 }
 
-/* 滚动条轨道 */
-::-webkit-scrollbar-track {
-  background: #f1f5f9; /* 轨道背景色 */
+/* webkit内核浏览器（Chrome/Safari）的滚动条样式 */
+.main-content::-webkit-scrollbar {
+  width: 6px; /* 滚动条宽度（thin对应的值） */
+  height: 6px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb); /* 滑块颜色 */
   border-radius: 3px;
 }
 
-/* 滚动条滑块 */
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-  transition: background 0.2s ease;
+.main-content::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track); /* 轨道颜色 */
 }
 
-/* 滚动条滑块hover状态 */
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; /* 滑块hover颜色 */
-}
-
-/* 滚动条角落（横竖滚动条交叉处） */
-::-webkit-scrollbar-corner {
-  background: transparent;
+/** hover状态增强（明暗主题下均生效） */
+.main-content::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--scrollbar-thumb), black 10%); /* 加深10% */
 }
 </style>

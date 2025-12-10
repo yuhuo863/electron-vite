@@ -288,13 +288,13 @@ const handleViewDetail = (id: string): void => {
           :lg="6"
         >
           <el-card
-            class="my-4 cursor-pointer hover:bg-gray-100"
+            class="my-4 cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-800"
             shadow="never"
             @click="handleViewDetail(item.id)"
           >
             <template #header>
               <div class="flex items-center space-x-2">
-                <el-icon :size="28" color="skyblue">
+                <el-icon :size="28" :color="item.category.color">
                   <component :is="item.category.icon"></component>
                 </el-icon>
                 <div>

@@ -1,17 +1,18 @@
 import { FeedbackCache } from '@renderer/types/feedback'
+import storage from '@renderer/utils/storage'
 
 const FEEDBACK_STORAGE_KEY_PREFIX = 'app_feedback_check'
 
 export const useFeedbackStatus = (
   userId: string
 ): {
-  isLocalStorageExpired: () => boolean
-  updateLocalStorage: (daysUntilNextCheck: number) => void
+  isLocalStorageExpired: () => Promise<boolean>
+  updateLocalStorage: (daysUntilNextCheck: number) => Promise<void>
 } => {
   const USER_SPECIFIC_KEY = `${FEEDBACK_STORAGE_KEY_PREFIX}${userId}`
 
-  const isLocalStorageExpired = (): boolean => {
-    const data = localStorage.getItem(USER_SPECIFIC_KEY)
+  const isLocalStorageExpired = async (): Promise<boolean> => {
+    const data = await storage.get(USER_SPECIFIC_KEY)
     if (!data) return true
 
     try {
@@ -24,13 +25,13 @@ export const useFeedbackStatus = (
     }
   }
 
-  const updateLocalStorage = (daysUntilNextCheck: number): void => {
+  const updateLocalStorage = async (daysUntilNextCheck: number): Promise<void> => {
     const safeDays = Math.max(1, daysUntilNextCheck)
     const nextCheckTimestamp = new Date().getTime() + safeDays * 24 * 60 * 60 * 1000
     const data: FeedbackCache = {
       nextCheckTimestamp: nextCheckTimestamp
     }
-    localStorage.setItem(USER_SPECIFIC_KEY, JSON.stringify(data))
+    await storage.set(USER_SPECIFIC_KEY, JSON.stringify(data))
     console.log('下次检查时间为：' + new Date(nextCheckTimestamp).toLocaleString())
   }
 

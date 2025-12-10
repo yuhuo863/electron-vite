@@ -5,7 +5,7 @@
       <el-card shadow="never" class="mt3">
         <div class="flex flex-col space-y-2">
           <p>数据导出/导入</p>
-          <p class="text-gray-400 text-sm">对密码存储的导出和导入。</p>
+          <p class="text-gray-400 text-xs">对密码存储的导出和导入。</p>
           <div class="flex flex-row space-x-2">
             <el-button type="primary" text icon="Download" @click="debounceExportData">
               导出数据
@@ -18,9 +18,7 @@
               :http-request="handleUploadRequest"
             >
               <template #trigger>
-                <el-button type="primary" plain icon="Upload" @click="handleImportData">
-                  导入数据
-                </el-button>
+                <el-button type="primary" plain icon="Upload"> 导入数据 </el-button>
               </template>
             </el-upload>
           </div>
@@ -29,8 +27,12 @@
       <el-card shadow="never">
         <div class="flex flex-col space-y-2">
           <p>安全操作</p>
-          <p class="text-gray-400 text-sm">立即锁定应用程序, 需要重新输入主密码才能访问。</p>
-          <el-button type="danger" plain icon="Lock" class="w-30">锁定应用</el-button>
+          <p class="text-gray-400 text-xs">
+            临时锁定应用程序, 需要重新输入主密码才能继续访问应用。
+          </p>
+          <el-button type="danger" plain icon="Lock" class="w-30" @click="handleLockApp">
+            锁定应用
+          </el-button>
         </div>
       </el-card>
     </div>
@@ -39,13 +41,14 @@
 
 <script setup lang="ts">
 import user from '@renderer/api/user'
+import { useAppStore } from '@renderer/stores/app'
 import { useDebounceFn } from '@vueuse/core'
 import { AxiosProgressEvent } from 'axios'
 import {
   ElMessage,
   UploadFile,
-  UploadFiles,
   UploadInstance,
+  UploadProgressEvent,
   UploadRequestOptions
 } from 'element-plus'
 import { useTemplateRef, ref } from 'vue'
@@ -101,9 +104,8 @@ const debounceExportData = useDebounceFn(handleExportData, 500)
 const uploadEl = useTemplateRef<UploadInstance>('uploadRef')
 const format = ref('')
 
-const handleFileChange = (file: UploadFile, fileList: UploadFiles): void => {
+const handleFileChange = (file: UploadFile): void => {
   if (!file) return
-  // console.log('handleFileChange', file, fileList)
   const fileName = file.name.toLowerCase()
   if (fileName.endsWith('.json')) {
     format.value = 'json'
@@ -124,25 +126,13 @@ const handleFileChange = (file: UploadFile, fileList: UploadFiles): void => {
 
 const handleUploadRequest = async (options: UploadRequestOptions): Promise<void> => {
   const { file, onProgress } = options
-  const currentFormat = format.value || (file.name.endsWith('csv') ? 'csv' : 'json')
+  const currentFormat = (format.value ??= file.name.endsWith('csv') ? 'csv' : 'json')
   let dataToSend: FormData | null = null
 
   try {
     if (currentFormat === 'csv') {
       dataToSend = new FormData()
       dataToSend.append('file', file)
-      const res = await user.importData(dataToSend, {
-        onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-          if (progressEvent.total) {
-            const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100)
-            onProgress({ percent })
-          }
-        },
-        params: {
-          format: currentFormat
-        }
-      })
-      ElMessage.success(res.message)
     } else {
       dataToSend = await new Promise((resolve, reject) => {
         const reader = new FileReader()
@@ -158,24 +148,28 @@ const handleUploadRequest = async (options: UploadRequestOptions): Promise<void>
         reader.onerror = reject
         reader.readAsText(file) // 读取文件内容
       })
-      const res = await user.importData(dataToSend, {
-        onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-          if (progressEvent.total) {
-            const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100)
-            onProgress({ percent })
-          }
-        }
-      })
-      ElMessage.success(res.message)
     }
+    const res = await user.importData(dataToSend, {
+      onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+        if (progressEvent.total) {
+          const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100)
+          onProgress({ percent } as UploadProgressEvent)
+        }
+      },
+      params: {
+        format: currentFormat
+      }
+    })
+    ElMessage.success(res.message)
   } catch (error) {
     ElMessage.error('数据导入失败！')
     console.error('Error importing data:', error)
   }
 }
+const appStore = useAppStore()
 
-const handleImportData = async (): Promise<void> => {
-  // console.log('handleImportData')
+const handleLockApp = (): void => {
+  appStore.lockScreen()
 }
 </script>
 

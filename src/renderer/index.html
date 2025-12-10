@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class="dark">
   <head>
     <meta charset="UTF-8" />
     <title>Electron</title>
@@ -17,6 +17,11 @@
                frame-src 'self';
                upgrade-insecure-requests;"
     />
+    <style>
+      ::view-transition-old(root) {
+        animation: none;
+      }
+    </style>
   </head>
 
   <body>

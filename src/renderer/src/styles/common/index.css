@@ -1,0 +1,54 @@
+/* startViewTransition 会自动创建两个伪元素
+::view-transition-old(root): 捕获变化前的状态。
+::view-transition-new(root): 捕获变化后的状态。
+*/
+
+/* 1. 隐藏新的状态和旧的状态，让它们可以淡入淡出 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s; /* 设置动画持续时间 */
+  animation-fill-mode: forwards;
+  mix-blend-mode: normal;
+}
+
+/* 2. 定义旧状态的动画（淡出效果） */
+::view-transition-old(root) {
+  /* 初始不透明度为 1 (完全显示)，最终不透明度为 0 (完全隐藏) */
+  animation-name: fade-out;
+}
+
+/* 3. 定义新状态的动画（淡入效果） */
+::view-transition-new(root) {
+  /* 初始不透明度为 0 (完全隐藏)，最终不透明度为 1 (完全显示) */
+  animation-name: fade-in;
+}
+
+/* 定义关键帧 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* 消除旧状态的移动 */
+::view-transition-group(root) {
+  /* 保证整个过渡组在屏幕上不发生位移 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  contain: layout;
+}

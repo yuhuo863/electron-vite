@@ -2,7 +2,6 @@ import { RouteRecordRaw } from 'vue-router'
 import LoginPage from '@renderer/views/LoginPage.vue'
 import LandingPage from '@renderer/layouts/LandingPage.vue'
 import DataBoard from '@renderer/layouts/DataBoard.vue'
-import GeneralView from '@renderer/views/GeneralView.vue'
 import AuthPage from '@renderer/views/AuthPage.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -61,7 +60,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '',
         name: 'databoard',
-        component: DataBoard,
+        component: () => import('@renderer/layouts/DataBoard.vue'),
         meta: { title: '数据面板' }
       },
       {
@@ -106,12 +105,12 @@ const routes: RouteRecordRaw[] = [
           {
             path: '',
             name: 'settings-general',
-            component: GeneralView,
+            component: () => import('@renderer/views/GeneralView.vue'),
             meta: { title: '基础设置' }
           },
           {
-            path: 'masterPasswd',
-            name: 'masterPasswd',
+            path: 'master-password',
+            name: 'settings-master-password',
             component: () => import('@renderer/views/components/MasterPasswdView.vue'),
             meta: { title: '主密码设置' }
           }

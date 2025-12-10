@@ -5,7 +5,7 @@
     class="settings-tabs"
     @tab-change="handleTabChange"
   >
-    <el-tab-pane name="profile">
+    <el-tab-pane name="profile" lazy>
       <template #label>
         <span class="custom-tabs-label">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
@@ -20,8 +20,8 @@
       </template>
       <ProfileView />
     </el-tab-pane>
-    <el-tab-pane name="security"
-      ><template #label>
+    <el-tab-pane name="security" lazy>
+      <template #label>
         <span class="custom-tabs-label">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
             <path
@@ -35,8 +35,8 @@
       </template>
       <SecurityView />
     </el-tab-pane>
-    <el-tab-pane name="appearance"
-      ><template #label>
+    <el-tab-pane name="appearance" lazy>
+      <template #label>
         <span class="custom-tabs-label">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <path
@@ -51,7 +51,7 @@
 
       <AppearanceView />
     </el-tab-pane>
-    <el-tab-pane name="options">
+    <el-tab-pane name="options" lazy>
       <template #label>
         <span class="custom-tabs-label">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">

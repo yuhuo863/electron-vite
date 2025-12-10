@@ -29,13 +29,13 @@ const config = ref<VueUiSmileyConfig>({
     title: {
       textAlign: 'center',
       fontSize: 20,
-      color: '#000000',
+      color: '#999999',
       bold: true,
       text: '系统评分',
       offsetY: 6,
       subtitle: {
         fontSize: 14,
-        color: '#CCCCCC',
+        color: '#666666',
         bold: false,
         text: '请反馈您的使用体验，感谢您的支持！',
         offsetY: 12
@@ -88,11 +88,11 @@ defineProps({
   }
 })
 const emit = defineEmits(['update:dialogVisible'])
-const handleClose = (): void => {
+const handleClose = async (): Promise<void> => {
   emit('update:dialogVisible', false)
   if (!isRated.value) {
     // 如果用户手动关闭且没有进行评分，设置一个短期缓存(1天)，避免立即再次弹出
-    updateLocalStorage(1)
+    await updateLocalStorage(1)
   }
 }
 </script>

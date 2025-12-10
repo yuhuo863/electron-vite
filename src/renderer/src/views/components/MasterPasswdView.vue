@@ -125,12 +125,7 @@ const checkPasswordStrength = (value: string): void => {
 
 const submitResetPassword = async (): Promise<void> => {
   if (!passwordFormRef.value) return
-  await passwordFormRef.value.validate((valid) => {
-    if (!valid) {
-      ElMessage.error('请检查密码输入')
-      return
-    }
-  })
+  await passwordFormRef.value.validate().catch(() => false)
   try {
     const response = await userApi.updatePassword(form.currentPassword, form.newPassword)
     ElMessage.success(response.message)
@@ -152,7 +147,6 @@ const submitResetPassword = async (): Promise<void> => {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #f5f7fa;
   padding: 20px;
   margin-top: 20px;
 }
@@ -160,7 +154,6 @@ const submitResetPassword = async (): Promise<void> => {
 .reset-password-card {
   width: 100%;
   max-width: 450px;
-  /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);*/
   border-radius: 12px;
   padding: 30px 20px;
 }
@@ -168,7 +161,6 @@ const submitResetPassword = async (): Promise<void> => {
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #333;
   text-align: center;
   margin-bottom: 25px;
 }
@@ -179,7 +171,6 @@ const submitResetPassword = async (): Promise<void> => {
 
 .desc {
   text-align: center;
-  color: #666;
   margin-bottom: 30px;
   font-size: 14px;
 }
