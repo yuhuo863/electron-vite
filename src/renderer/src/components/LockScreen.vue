@@ -133,6 +133,7 @@ const handleUnlock = async (formEl: FormInstance | null): Promise<void> => {
       console.error('Error unlocking:', error)
       ElMessage.error(error.response?.data?.message || 'Failed to unlock')
     }
+    unlockForm.password = ''
   } finally {
     verifying.value = false
   }

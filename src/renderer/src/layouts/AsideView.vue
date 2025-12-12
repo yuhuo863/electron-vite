@@ -37,10 +37,6 @@
           <el-icon><Setting /></el-icon>
           <span>应用设置</span>
         </el-menu-item>
-        <el-menu-item index="/changelog">
-          <el-icon><HelpFilled /></el-icon>
-          <span>系统更新</span>
-        </el-menu-item>
         <el-menu-item v-if="isAdmin" index="/admin">
           <el-icon><Avatar /></el-icon>
           <span>管理面板</span>

@@ -35,7 +35,7 @@
             <li class="flex justify-between">
               <div class="flex items-center space-x-3">
                 <div>
-                  <el-icon color="blue"><Monitor /></el-icon>
+                  <el-icon><Monitor /></el-icon>
                 </div>
                 <div class="flex flex-col">
                   <p class="text-sm">

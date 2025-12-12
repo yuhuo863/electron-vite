@@ -10,17 +10,14 @@
             d="M400 416C497.2 416 576 337.2 576 240C576 142.8 497.2 64 400 64C302.8 64 224 142.8 224 240C224 258.7 226.9 276.8 232.3 293.7L71 455C66.5 459.5 64 465.6 64 472L64 552C64 565.3 74.7 576 88 576L168 576C181.3 576 192 565.3 192 552L192 512L232 512C245.3 512 256 501.3 256 488L256 448L296 448C302.4 448 308.5 445.5 313 441L346.3 407.7C363.2 413.1 381.3 416 400 416zM440 160C462.1 160 480 177.9 480 200C480 222.1 462.1 240 440 240C417.9 240 400 222.1 400 200C400 177.9 417.9 160 440 160z"
           />
         </svg>
-        <span class="font-bold text-xl text-blue-300">Secret Shop</span>
+        <span class="gradient-text">Secret Shop</span>
       </div>
     </div>
 
     <div class="no-drag flex items-center">
       <div class="flex space-x-3 mt1">
         <el-tooltip content="应用更新动态" effect="light">
-          <div
-            class="hover:color-gray-500 cursor-pointer hover:bg-gray-100/80"
-            @click="handleChangelogClick"
-          >
+          <div class="hover:color-gray-500 cursor-pointer" @click="handleChangelogClick">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
@@ -97,7 +94,7 @@ const authStore = useAuthStore()
 const handleCommand = async (command: string): Promise<void> => {
   switch (command) {
     case 'profile':
-      ElMessage('个人资料正在开发')
+      router.push('/11')
       break
     case 'settings':
       router.push('/settings')
@@ -113,4 +110,11 @@ const handleChangelogClick = (): void => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.gradient-text {
+  background: linear-gradient(45deg, #409eff, #67c23a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+</style>

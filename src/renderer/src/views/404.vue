@@ -1,239 +1,95 @@
 <template>
-  <div style="background: #f0f2f5; margin-top: -20px">
-    <div class="wscn-http404">
-      <div class="pic-404">
-        <img class="pic-404__parent" :src="img_404" alt="404" />
-        <img class="pic-404__child left" :src="img_404_cloud" alt="404" />
-        <img class="pic-404__child mid" :src="img_404_cloud" alt="404" />
-        <img class="pic-404__child right" :src="img_404_cloud" alt="404" />
+  <div class="page-404-container">
+    <div class="error-content">
+      <div class="error-code">404</div>
+      <div class="error-message">
+        <h2>页面未找到</h2>
+        <p>Page not found</p>
       </div>
-      <div class="bullshit">
-        <div class="bullshit__oops">OOPS!</div>
-        <div class="bullshit__info">
-          您似乎进到了一个次元世界，请点击以下按钮返回主页或者发送错误报告
-        </div>
-        <a href="/" class="bullshit__return-home">返回首页</a>
+      <div class="error-actions">
+        <el-button type="primary" size="large" @click="goHome"> 返回首页 </el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import img_404 from '@renderer/assets/404.png'
-import img_404_cloud from '@renderer/assets/404_cloud.png'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goHome = (): void => {
+  router.push('/')
+}
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-.wscn-http404 {
-  position: relative;
-  width: 1200px;
-  margin: 20px auto 60px;
-  padding: 0 100px;
-  overflow: hidden;
+<style scoped>
+/* 全局容器 */
+.page-404-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+}
 
-  .pic-404 {
-    position: relative;
-    float: left;
-    width: 600px;
-    padding: 150px 0;
-    overflow: hidden;
+/* 核心内容区 */
+.error-content {
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
 
-    &__parent {
-      width: 100%;
-    }
+/* 404数字样式 */
+.error-code {
+  font-size: 100px;
+  font-weight: 700;
+  color: #409eff;
+  margin-bottom: 20px;
+}
 
-    &__child {
-      position: absolute;
+/* 提示文案 */
+.error-message {
+  margin-bottom: 32px;
+}
 
-      &.left {
-        width: 80px;
-        top: 17px;
-        left: 220px;
-        opacity: 0;
-        animation-name: cloudLeft;
-        animation-duration: 2s;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        animation-delay: 1s;
-      }
+.error-message h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
 
-      &.mid {
-        width: 46px;
-        top: 10px;
-        left: 420px;
-        opacity: 0;
-        animation-name: cloudMid;
-        animation-duration: 2s;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        animation-delay: 1.2s;
-      }
+.error-message p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
 
-      &.right {
-        width: 62px;
-        top: 100px;
-        left: 500px;
-        opacity: 0;
-        animation-name: cloudRight;
-        animation-duration: 2s;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        animation-delay: 1s;
-      }
-
-      @keyframes cloudLeft {
-        0% {
-          top: 17px;
-          left: 220px;
-          opacity: 0;
-        }
-
-        20% {
-          top: 33px;
-          left: 188px;
-          opacity: 1;
-        }
-
-        80% {
-          top: 81px;
-          left: 92px;
-          opacity: 1;
-        }
-
-        100% {
-          top: 97px;
-          left: 60px;
-          opacity: 0;
-        }
-      }
-
-      @keyframes cloudMid {
-        0% {
-          top: 10px;
-          left: 420px;
-          opacity: 0;
-        }
-
-        20% {
-          top: 40px;
-          left: 360px;
-          opacity: 1;
-        }
-
-        70% {
-          top: 130px;
-          left: 180px;
-          opacity: 1;
-        }
-
-        100% {
-          top: 160px;
-          left: 120px;
-          opacity: 0;
-        }
-      }
-
-      @keyframes cloudRight {
-        0% {
-          top: 100px;
-          left: 500px;
-          opacity: 0;
-        }
-
-        20% {
-          top: 120px;
-          left: 460px;
-          opacity: 1;
-        }
-
-        80% {
-          top: 180px;
-          left: 340px;
-          opacity: 1;
-        }
-
-        100% {
-          top: 200px;
-          left: 300px;
-          opacity: 0;
-        }
-      }
-    }
+/* 响应式适配 */
+@media (max-width: 576px) {
+  .error-code {
+    font-size: 80px;
   }
 
-  .bullshit {
-    position: relative;
-    float: left;
-    width: 300px;
-    padding: 150px 0;
-    overflow: hidden;
+  .error-message h2 {
+    font-size: 20px;
+  }
 
-    &__oops {
-      font-size: 32px;
-      font-weight: bold;
-      line-height: 40px;
-      color: #1482f0;
-      opacity: 0;
-      margin-bottom: 20px;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-fill-mode: forwards;
-    }
+  .error-message p {
+    font-size: 14px;
+  }
 
-    &__headline {
-      font-size: 20px;
-      line-height: 24px;
-      color: #1482f0;
-      opacity: 0;
-      margin-bottom: 10px;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.1s;
-      animation-fill-mode: forwards;
-    }
+  .error-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
 
-    &__info {
-      font-size: 13px;
-      line-height: 21px;
-      color: grey;
-      opacity: 0;
-      margin-bottom: 30px;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.2s;
-      animation-fill-mode: forwards;
-    }
-
-    &__return-home {
-      display: block;
-      float: left;
-      width: 110px;
-      height: 36px;
-      background: #1482f0;
-      border-radius: 100px;
-      text-align: center;
-      color: #ffffff;
-      opacity: 0;
-      font-size: 14px;
-      line-height: 36px;
-      cursor: pointer;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.3s;
-      animation-fill-mode: forwards;
-    }
-
-    @keyframes slideUp {
-      0% {
-        transform: translateY(60px);
-        opacity: 0;
-      }
-
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
+  .error-actions .el-button {
+    width: 100%;
   }
 }
 </style>

@@ -13,30 +13,20 @@
 
     <div class="content">
       <el-row :gutter="20" class="data-row">
-        <el-col :xs="24" :sm="24" :md="12" class="data-col">
-          <el-card shadow="never" header="个人安全评分">
-            <div class="chart-placeholder gauge-placeholder">
-              <VueDataUi component="VueUiSparkgauge" :dataset="dataset1" :config="config1" />
-            </div>
-          </el-card>
-        </el-col>
-
-        <el-col :xs="24" :sm="24" :md="12" class="data-col">
+        <el-col :xs="24" :sm="24" :md="24" class="data-col">
           <el-card shadow="never" header="安全警示中心">
             <el-alert
               title="存在高风险密码"
               type="error"
               description="您有 5 个密码强度过低，请尽快修改！"
               show-icon
-              :closable="false"
               class="mb-4"
             />
             <el-alert
               title="异常登录尝试"
               type="warning"
-              description="可能非本人或非惯用地区/设备的登录尝试，建议您修改密码或联系客服。"
+              description="可能非本人或非惯用地区/设备的登录尝试，建议您修改密码。"
               show-icon
-              :closable="false"
               class="mb-4"
             />
             <el-alert
@@ -44,7 +34,6 @@
               type="info"
               description="您有 3 个密码已长期未使用，建议及时更新。"
               show-icon
-              :closable="false"
             />
           </el-card>
         </el-col>
@@ -71,7 +60,7 @@
 
         <el-col :xs="24" :sm="24" :md="12" class="data-col">
           <el-card shadow="never" header="最近活动记录">
-            <el-table :data="userPasswordLogs" max-height="400">
+            <el-table :data="userPasswordLogs" max-height="">
               <el-table-column prop="action" label="操作" align="center" />
               <el-table-column prop="title" label="项目" width="120" align="center" />
               <el-table-column prop="timestamp" label="时间" width="100" align="center">
@@ -91,54 +80,12 @@
 import user from '@renderer/api/user'
 import { useCategoryStore } from '@renderer/stores/category'
 import { computed, onMounted, ref, watch } from 'vue'
-import {
-  VueDataUi,
-  VueUiDonutConfig,
-  VueUiDonutDatasetItem,
-  VueUiSparkgaugeConfig,
-  VueUiSparkgaugeDataset
-} from 'vue-data-ui'
+import { VueDataUi, VueUiDonutConfig, VueUiDonutDatasetItem } from 'vue-data-ui'
 import 'vue-data-ui/style.css'
 import { useRouter } from 'vue-router'
 import { formatActionTime } from '@renderer/utils/time'
 import password from '@renderer/api/password'
 import { useDark } from '@vueuse/core'
-
-const dataset1 = ref<VueUiSparkgaugeDataset>({
-  value: 1,
-  min: 1,
-  max: 5,
-  title: '账号密码强度'
-})
-const config1 = ref<VueUiSparkgaugeConfig>({
-  debug: false,
-  loading: false,
-  style: {
-    fontFamily: 'inherit',
-    height: 84,
-    basePosition: 72,
-    animation: { show: true, speedMs: 150 },
-    title: {
-      show: true,
-      fontSize: 12,
-      position: 'bottom',
-      textAlign: 'center',
-      bold: false
-    },
-    dataLabel: {
-      fontSize: 36,
-      autoColor: true,
-      offsetY: -2,
-      bold: true,
-      rounding: 0,
-      prefix: '',
-      suffix: ''
-    },
-    colors: { min: '#00FF00', max: '#FF0000', showGradient: true },
-    track: { autoColor: true, color: '#5f8bee', strokeLinecap: 'round' },
-    gutter: { color: '#3A3A3A', strokeLinecap: 'round' }
-  }
-})
 
 const dataset2 = ref<VueUiDonutDatasetItem[]>([])
 
@@ -317,10 +264,8 @@ watch(
   isDark,
   (newValue) => {
     if (newValue) {
-      config1.value.theme = 'celebrationNight'
       config2.value.theme = 'celebrationNight'
     } else {
-      config1.value.theme = 'concrete'
       config2.value.theme = 'concrete'
     }
   },

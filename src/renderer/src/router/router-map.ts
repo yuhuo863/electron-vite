@@ -1,7 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 import LoginPage from '@renderer/views/LoginPage.vue'
 import LandingPage from '@renderer/layouts/LandingPage.vue'
-import DataBoard from '@renderer/layouts/DataBoard.vue'
 import AuthPage from '@renderer/views/AuthPage.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -115,12 +114,6 @@ const routes: RouteRecordRaw[] = [
             meta: { title: '主密码设置' }
           }
         ]
-      },
-      {
-        path: 'changelog',
-        name: 'changelog',
-        component: () => import('@renderer/views/ChangelogPage.vue'),
-        meta: { title: '系统更新' }
       },
       {
         path: 'admin',
