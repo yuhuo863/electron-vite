@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { VueDataUi, VueUiRatingDataset, VueUiSmileyConfig } from 'vue-data-ui'
+import { VueDataUi, VueDataUiExpose, VueUiRatingDataset, VueUiSmileyConfig } from 'vue-data-ui'
 import user from '@renderer/api/user'
 import { ElMessage } from 'element-plus'
 import { useFeedbackStatus } from '@renderer/hooks/useFeedbackStatus'
@@ -8,7 +8,7 @@ import { useAuthStore } from '@renderer/stores/auth'
 
 const authStore = useAuthStore()
 
-const smileyEl = ref(null)
+const smileyEl = ref<VueDataUiExpose | null>(null)
 const currentRating = ref<number>(0)
 const disabled = ref(false)
 const isRated = ref(false)
@@ -66,8 +66,8 @@ const config = ref<VueUiSmileyConfig>({
 
 const FRONTEND_COOLDOWN_DAYS = 7 // 前端缓存冷却期 (天)
 const { updateLocalStorage } = useFeedbackStatus(authStore.userInfo?.id as string)
-const handleSumitRating = async (): Promise<void> => {
-  currentRating.value = await smileyEl.value?.getData()
+const handleSubmitRating = async (): Promise<void> => {
+  currentRating.value = await (smileyEl.value as any).getData()
   if (currentRating.value === 0) return
   try {
     const response = await user.submitRating(currentRating.value)
@@ -109,7 +109,7 @@ const handleClose = async (): Promise<void> => {
     <div class="">
       <VueDataUi ref="smileyEl" component="VueUiSmiley" :dataset="dataset" :config="config" />
       <div v-if="smileyEl" class="flex justify-center mt3">
-        <el-button type="primary" plain :disabled="disabled" @click="handleSumitRating"
+        <el-button type="primary" plain :disabled="disabled" @click="handleSubmitRating"
           >提交</el-button
         >
       </div>

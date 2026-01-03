@@ -18,6 +18,7 @@ export const useUserStore = defineStore('user', () => {
   const handleActiveChange = async (row: IUserItem): Promise<void> => {
     try {
       const response = await admin.updateUserStatus(row.id, row.isActive)
+      await getUserList()
       ElMessage.success(response.message)
     } catch (error) {
       console.error('Failed to update user status:', error)
@@ -27,6 +28,7 @@ export const useUserStore = defineStore('user', () => {
   const handleRoleChange = async (id: string, role: string, reason?: string): Promise<void> => {
     try {
       const response = await admin.updateUserRole(id, role, reason)
+      await getUserList()
       ElMessage.success(response.message)
     } catch (error) {
       console.error('Failed to update user role:', error)

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="reset-password-container">
-      <div class="reset-password-card space-y-2">
+      <div class="reset-password-card space-y-8">
         <h2 class="text-2xl font-bold text-center">用户注册</h2>
         <div>
           <el-form
@@ -132,7 +132,7 @@ const handleRegister = async (formEl: FormInstance | null): Promise<void> => {
   border-radius: 12px;
   padding: 30px 20px;
 }
-.el-input {
-  height: 38px;
+:deep(.el-form-item) {
+  margin-bottom: 24px;
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import DynamicBreadcrumb from './components/DynamicBreadcrumb.vue'
 import { useSystemStore } from '@renderer/stores/system'
 import Pagination from '@renderer/components/Pagination.vue'

@@ -56,7 +56,7 @@
             </div>
           </el-form-item>
 
-          <el-form-item label="默认分类">
+          <el-form-item v-show="isEditMode" label="默认分类">
             <el-switch v-model="drawerForm.isDefault" disabled />
           </el-form-item>
         </el-form>
@@ -91,18 +91,6 @@
         <el-table-column prop="" label="" align="center" />
         <el-table-column label="操作" align="center" width="200">
           <template #default="{ row }">
-            <el-tooltip
-              :content="row.isDefault ? '已设置为默认分类' : '设置为默认分类'"
-              effect="light"
-            >
-              <el-button
-                :disabled="row.isDefault"
-                type="warning"
-                text
-                icon="WindPower"
-                @click="setDefault(row.id)"
-              ></el-button>
-            </el-tooltip>
             <el-button type="primary" text icon="Edit" @click="openDrawer(row)"></el-button>
             <el-button
               type="danger"
@@ -228,26 +216,6 @@ const handleDelete = async (id: string): Promise<void> => {
       ElMessage('已取消删除')
     }
   }
-}
-
-const setDefault = (id: string): void => {
-  ElMessageBox.confirm('确定设置该分类为默认分类吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-    .then(async () => {
-      await categoryStore.setDefaultCategory(id)
-      ElMessage.success('设置成功')
-    })
-    .catch((error) => {
-      if (error === 'cancel') {
-        ElMessage('已取消设置')
-      } else {
-        ElMessage.error('设置失败')
-        console.error(error)
-      }
-    })
 }
 </script>
 

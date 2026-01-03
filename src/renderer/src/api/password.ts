@@ -29,6 +29,4 @@ export default {
   forceDeletePasswords: (ids: string[]) => server.post('/passwords/permanently', { ids }),
   /**彻底删除当前用户的所有密码(包括未删除和回收站中的) */
   emptyTrash: () => server.delete('/passwords/permanently-all'),
-  /**获取用户所有密码强度均值 */
-  getUserPasswordStrengthAverage: () => server.get('/passwords/strength-average')
 }

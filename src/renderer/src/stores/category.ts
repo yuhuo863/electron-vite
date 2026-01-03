@@ -59,25 +59,11 @@ export const useCategoryStore = defineStore('category', () => {
     }
   }
 
-  const setDefaultCategory = async (id: string): Promise<void> => {
-    try {
-      await category.setDefaultCategory(id)
-      await fetchCategories()
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        console.error('Error setting default category:', error)
-        ElMessage.error(error.response?.data?.message || 'Failed to set default category')
-        throw error
-      }
-    }
-  }
-
   return {
     categoryList,
     fetchCategories,
     createCategory,
     updateCategory,
     deleteCategory,
-    setDefaultCategory
   }
 })

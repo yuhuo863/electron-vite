@@ -58,9 +58,9 @@
 import Operations from '@renderer/components/Operations.vue'
 import { useAuthStore } from '@renderer/stores/auth'
 import { useIdle } from '@vueuse/core'
-import { ElMessage } from 'element-plus'
 import { nextTick } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const { idle } = useIdle(60000 * 5) // 空闲超时设置为 5 分钟
@@ -94,7 +94,7 @@ const authStore = useAuthStore()
 const handleCommand = async (command: string): Promise<void> => {
   switch (command) {
     case 'profile':
-      router.push('/11')
+      ElMessage.info('暂无个人资料')
       break
     case 'settings':
       router.push('/settings')
@@ -106,7 +106,7 @@ const handleCommand = async (command: string): Promise<void> => {
   }
 }
 const handleChangelogClick = (): void => {
-  router.push('/changelog')
+  ElMessage.info('暂无更新')
 }
 </script>
 

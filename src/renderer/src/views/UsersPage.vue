@@ -28,6 +28,7 @@ const openDialog = (row): void => {
 
 const dialogFormVisible = ref(false)
 const dialogFormModel = ref({
+  id: '',
   role: '',
   reason: ''
 })

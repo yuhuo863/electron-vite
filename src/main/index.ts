@@ -54,6 +54,11 @@ function createWindow(): void {
     mainWindow = null
   })
 
+  // 打开开发者工具
+  // if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+  //   mainWindow.webContents.openDevTools()
+  // }
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url) // 使用默认浏览器打开链接
     return { action: 'deny' } // 阻止在应用内打开新窗口

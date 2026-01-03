@@ -12,11 +12,10 @@ build/
 *.tmp
 *.swp
 
-# VSCode 配置
-.vscode/*
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/settings.json
+# 配置文件
+.vscode
+.comate
+.idea
 
 # 环境变量
 .env

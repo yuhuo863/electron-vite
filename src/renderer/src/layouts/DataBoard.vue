@@ -13,33 +13,6 @@
 
     <div class="content">
       <el-row :gutter="20" class="data-row">
-        <el-col :xs="24" :sm="24" :md="24" class="data-col">
-          <el-card shadow="never" header="安全警示中心">
-            <el-alert
-              title="存在高风险密码"
-              type="error"
-              description="您有 5 个密码强度过低，请尽快修改！"
-              show-icon
-              class="mb-4"
-            />
-            <el-alert
-              title="异常登录尝试"
-              type="warning"
-              description="可能非本人或非惯用地区/设备的登录尝试，建议您修改密码。"
-              show-icon
-              class="mb-4"
-            />
-            <el-alert
-              title="闲置/过期密码"
-              type="info"
-              description="您有 3 个密码已长期未使用，建议及时更新。"
-              show-icon
-            />
-          </el-card>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="20" class="data-row">
         <el-col :xs="24" :sm="24" :md="12" class="data-col">
           <el-card shadow="never" header="密码存储统计">
             <div class="chart-placeholder pie-placeholder">
@@ -59,8 +32,8 @@
         </el-col>
 
         <el-col :xs="24" :sm="24" :md="12" class="data-col">
-          <el-card shadow="never" header="最近活动记录">
-            <el-table :data="userPasswordLogs" max-height="">
+          <el-card shadow="never" header="最近活动记录(10)">
+            <el-table :data="userPasswordLogs" max-height="480">
               <el-table-column prop="action" label="操作" align="center" />
               <el-table-column prop="title" label="项目" width="120" align="center" />
               <el-table-column prop="timestamp" label="时间" width="100" align="center">
@@ -84,7 +57,6 @@ import { VueDataUi, VueUiDonutConfig, VueUiDonutDatasetItem } from 'vue-data-ui'
 import 'vue-data-ui/style.css'
 import { useRouter } from 'vue-router'
 import { formatActionTime } from '@renderer/utils/time'
-import password from '@renderer/api/password'
 import { useDark } from '@vueuse/core'
 
 const dataset2 = ref<VueUiDonutDatasetItem[]>([])
@@ -293,10 +265,6 @@ onMounted(async () => {
     title: log.password.title,
     timestamp: log.timestamp
   }))
-
-  const result = await password.getUserPasswordStrengthAverage()
-  // 3.5 -> 4
-  dataset1.value.value = Math.round(result.data.averageStrength)
 })
 
 const router = useRouter()
@@ -324,11 +292,5 @@ const handleAddCategory = (): void => {
   align-items: center;
   justify-content: center;
   color: #c0c4cc;
-}
-
-.total-count {
-  text-align: center;
-  font-size: 16px;
-  margin-top: 10px;
 }
 </style>

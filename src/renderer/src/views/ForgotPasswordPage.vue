@@ -1,6 +1,6 @@
 <template>
   <div class="reset-password-container">
-    <div class="reset-password-card space-y-2">
+    <div class="reset-password-card space-y-8">
       <h2 class="text-center font-bold">重置密码</h2>
       <div>
         <el-form
@@ -109,7 +109,8 @@ const { remaining, start, reset } = useCountdown(countdown, {
     reset(countdown.value)
   },
   onTick() {
-    console.log('倒计时剩余时间：', remaining.value)
+    // 可以在这里执行其他操作，例如更新UI显示剩余时间
+    // console.log('倒计时剩余时间：', remaining.value)
   }
 })
 
@@ -166,5 +167,8 @@ const handleResetPassword = async (formEl: FormInstance | null): Promise<void> =
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 30px 20px;
+}
+:deep(.el-form-item) {
+  margin-bottom: 24px;
 }
 </style>
